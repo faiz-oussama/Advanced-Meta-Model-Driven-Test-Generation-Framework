@@ -1,0 +1,43 @@
+{
+  "name": "Category",
+  "packageName": "com.univade.TU",
+  "tableName": "categories",
+  "auditable": false,
+  "attributes": [
+    {
+      "name": "id",
+      "type": "Long",
+      "nullable": false,
+      "unique": false,
+      "primaryKey": true,
+      "generatedValue": true,
+      "generationType": "IDENTITY",
+      "columnName": "id"
+    },
+    {
+      "name": "name",
+      "type": "String",
+      "nullable": true,
+      "unique": false,
+      "maxLength": 100,
+      "columnName": "name"
+    },
+    {
+      "name": "description",
+      "type": "String",
+      "nullable": true,
+      "unique": false,
+      "maxLength": 500,
+      "columnName": "description"
+    },
+    {
+      "name": "active",
+      "type": "Boolean",
+      "nullable": true,
+      "unique": false,
+      "columnName": "active"
+    }
+  ],
+  "relationships": [],
+  "validations": []
+}

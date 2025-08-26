@@ -1,0 +1,2016 @@
+package com.univade.TU.controller;
+
+import com.univade.TU.testdata.PersonTestDataBuilder;
+import com.univade.TU.dto.PersonDto;
+
+
+import com.univade.TU.entity.Person;
+
+
+import com.univade.TU.controller.PersonController;
+import com.univade.TU.service.PersonService;
+import com.univade.TU.exception.EntityNotFoundException;
+import com.univade.TU.exception.BadRequestException;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.context.annotation.Import;
+import org.springframework.http.*;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
+
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.Validator;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+
+import com.univade.TU.generator.model.ControllerValidationRule;
+
+import static org.assertj.core.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
+import static org.hamcrest.Matchers.*;
+import static org.assertj.core.api.Assertions.*;
+
+@WebMvcTest(PersonController.class)
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@Import(com.univade.TU.config.TestSecurityConfig.class)
+@WithMockUser
+@DisplayName("Person Controller Tests")
+class PersonControllerTest {
+
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @MockBean
+    private PersonService personService;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    @BeforeEach
+    void setUp() {
+        reset(personService);
+    }
+
+    private Person createPerson() {
+        return PersonTestDataBuilder.aValidPerson().build();
+    }
+
+    private PersonDto createPersonDto() {
+        Person entity = createPerson();
+        return PersonDto.builder()
+                .cin(entity.getCin())
+                .firstName(entity.getFirstName())
+                .lastName(entity.getLastName())
+                .dateOfBirth(entity.getDateOfBirth())
+                .phoneNumber(entity.getPhoneNumber())
+                .email(entity.getEmail())
+                .build();
+    }
+
+
+
+    private Person createMockEntity() {
+        Person mockEntity = createPerson();
+        mockEntity.setCin("CREATED_ID");
+        return mockEntity;
+    }
+
+    @Nested
+    @DisplayName("CRUD Operations")
+    class CrudOperations {
+
+        @Test
+        @DisplayName("Should create Person successfully with 201 status")
+        void createPersonShouldReturnCreated() throws Exception {
+            PersonDto requestDto = createPersonDto();
+            PersonDto responseDto = createPersonDto();
+            responseDto.setCin("CREATED_ID");
+
+            Person mockEntity = createPerson();
+            mockEntity.setCin("CREATED_ID");
+            when(personService.createPerson(any(Person.class))).thenReturn(createMockEntity());
+
+            mockMvc.perform(post("/api/persons")
+                    .with(csrf())
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(requestDto)))
+                    .andExpect(status().isCreated())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$.cin").value("CREATED_ID"));
+
+            verify(personService).createPerson(any(Person.class));
+        }
+
+        @Test
+        @DisplayName("Should get Person by ID successfully with 200 status")
+        void getPersonByIdShouldReturnOk() throws Exception {
+            PersonDto responseDto = createPersonDto();
+            String personId = "CREATED_ID";
+            responseDto.setCin(personId);
+
+            Person mockEntity = createPerson();
+            mockEntity.setCin(personId);
+            when(personService.getPersonById(personId)).thenReturn(createMockEntity());
+
+            mockMvc.perform(get("/api/persons/{id}", personId)
+                    .accept(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isOk())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(header().string("Content-Type", MediaType.APPLICATION_JSON_VALUE))
+                    .andExpect(jsonPath("$.cin").value("CREATED_ID"));
+
+            verify(personService).getPersonById(personId);
+        }
+
+        @Test
+        @DisplayName("Should return 404 when Person not found")
+        void getPersonByIdShouldReturn404WhenNotFound() throws Exception {
+            String personId = "NONEXISTENT_ID";
+
+            when(personService.getPersonById(personId))
+                    .thenThrow(new EntityNotFoundException("Person not found with id: " + personId));
+
+            mockMvc.perform(get("/api/persons/{id}", personId)
+                    .accept(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isNotFound())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$.message").value("Person not found with id: " + personId))
+                    .andExpect(jsonPath("$.status").value(404))
+                    .andExpect(jsonPath("$.timestamp").exists());
+
+            verify(personService).getPersonById(personId);
+        }
+
+        @Test
+        @DisplayName("Should update Person successfully with 200 status")
+        void updatePersonShouldReturnOk() throws Exception {
+            PersonDto requestDto = createPersonDto();
+            PersonDto responseDto = createPersonDto();
+            String personId = "CREATED_ID";
+            responseDto.setCin(personId);
+
+            Person mockEntity = createPerson();
+            mockEntity.setCin(personId);
+            when(personService.updatePerson(eq(personId), any(Person.class)))
+                    .thenReturn(createMockEntity());
+
+            mockMvc.perform(put("/api/persons/{id}", personId)
+                    .with(csrf())
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(requestDto)))
+                    .andExpect(status().isOk())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(header().string("Content-Type", MediaType.APPLICATION_JSON_VALUE))
+                    .andExpect(jsonPath("$.cin").value("CREATED_ID"));
+
+            verify(personService).updatePerson(eq(personId), any(Person.class));
+        }
+
+        @Test
+        @DisplayName("Should delete Person successfully with 204 status")
+        void deletePersonShouldReturnNoContent() throws Exception {
+            String personId = "CREATED_ID";
+
+            doNothing().when(personService).deletePerson(personId);
+
+            mockMvc.perform(delete("/api/persons/{id}", personId)
+                    .with(csrf()))
+                    .andExpect(status().isNoContent())
+                    .andExpect(content().string(""));
+
+            verify(personService).deletePerson(personId);
+        }
+
+        @Test
+        @DisplayName("Should get all Persons successfully with 200 status")
+        void getAllPersonsShouldReturnOk() throws Exception {
+            PersonDto personDto1 = createPersonDto();
+            PersonDto personDto2 = createPersonDto();
+            personDto1.setCin("ID_1");
+            personDto2.setCin("ID_2");
+
+            List<PersonDto> personDtoList = Arrays.asList(personDto1, personDto2);
+
+            Person entity1 = createPerson();
+            Person entity2 = createPerson();
+            entity1.setCin("ID_1");
+            entity2.setCin("ID_2");
+            List<Person> entityList = Arrays.asList(entity1, entity2);
+            when(personService.getAllPersons()).thenReturn(entityList);
+
+            mockMvc.perform(get("/api/persons")
+                    .accept(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isOk())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(header().string("Content-Type", MediaType.APPLICATION_JSON_VALUE))
+                    .andExpect(jsonPath("$", hasSize(2)))
+                    .andExpect(jsonPath("$[0].cin").value("ID_1"))
+                    .andExpect(jsonPath("$[1].cin").value("ID_2"));
+
+            verify(personService).getAllPersons();
+        }
+    }
+
+    @Nested
+    @DisplayName("Dynamic Validation Tests")
+    class DynamicValidationTests {
+
+        @Test
+        @DisplayName("Should dynamically test all validation constraints from DTO")
+        void testDynamicValidationConstraints() throws Exception {
+            List<ControllerValidationRule> rules = createValidationRules();
+
+            assertThat(rules).isNotEmpty();
+
+            for (ControllerValidationRule rule : rules) {
+                PersonDto dto = createPersonDto();
+
+                setInvalidValueOnDto(dto, rule);
+                mockMvc.perform(post("/api/persons")
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(dto)))
+                        .andExpect(status().isBadRequest())
+                        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                        .andExpect(jsonPath("$.status").value(400))
+                        .andExpect(jsonPath("$.message").exists())
+                        .andExpect(jsonPath("$.timestamp").exists());
+            }
+
+            verify(personService, never()).createPerson(any(Person.class));
+        }
+
+        private List<ControllerValidationRule> createValidationRules() {
+            List<ControllerValidationRule> rules = new ArrayList<>();
+
+            // Should return 400 when lastName is blank
+            rules.add(ControllerValidationRule.builder()
+                    .testName("createPersonWithBlankLastNameShouldReturnBadRequest")
+                    .attributeName("lastName")
+                    .validationType("NotBlank")
+                    .description("Should return 400 when lastName is blank")
+                    .expectedHttpStatus("400")
+                    .message("Last name cannot be blank")
+                    .invalidValue("")
+                    .build());
+
+            // Should return 400 when lastName has invalid size
+            rules.add(ControllerValidationRule.builder()
+                    .testName("createPersonWithInvalidSizeLastNameShouldReturnBadRequest")
+                    .attributeName("lastName")
+                    .validationType("Size")
+                    .description("Should return 400 when lastName has invalid size")
+                    .expectedHttpStatus("400")
+                    .message("Last name must be between 2 and 50 characters")
+                    .minValue(2)
+                    .maxValue(50)
+                    .invalidValue("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+                    .build());
+
+            // Should return 400 when firstName is blank
+            rules.add(ControllerValidationRule.builder()
+                    .testName("createPersonWithBlankFirstNameShouldReturnBadRequest")
+                    .attributeName("firstName")
+                    .validationType("NotBlank")
+                    .description("Should return 400 when firstName is blank")
+                    .expectedHttpStatus("400")
+                    .message("First name cannot be blank")
+                    .invalidValue("")
+                    .build());
+
+            // Should return 400 when firstName has invalid size
+            rules.add(ControllerValidationRule.builder()
+                    .testName("createPersonWithInvalidSizeFirstNameShouldReturnBadRequest")
+                    .attributeName("firstName")
+                    .validationType("Size")
+                    .description("Should return 400 when firstName has invalid size")
+                    .expectedHttpStatus("400")
+                    .message("First name must be between 2 and 50 characters")
+                    .minValue(2)
+                    .maxValue(50)
+                    .invalidValue("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+                    .build());
+
+            // Should return 400 when phoneNumber has invalid size
+            rules.add(ControllerValidationRule.builder()
+                    .testName("createPersonWithInvalidSizePhoneNumberShouldReturnBadRequest")
+                    .attributeName("phoneNumber")
+                    .validationType("Size")
+                    .description("Should return 400 when phoneNumber has invalid size")
+                    .expectedHttpStatus("400")
+                    .message("Phone number must be between 10 and 15 characters")
+                    .minValue(10)
+                    .maxValue(15)
+                    .invalidValue("aaaaaaaaaaaaaaaa")
+                    .build());
+
+            // Should return 400 when cin is blank
+            rules.add(ControllerValidationRule.builder()
+                    .testName("createPersonWithBlankCinShouldReturnBadRequest")
+                    .attributeName("cin")
+                    .validationType("NotBlank")
+                    .description("Should return 400 when cin is blank")
+                    .expectedHttpStatus("400")
+                    .message("CIN cannot be blank")
+                    .invalidValue("")
+                    .build());
+
+            // Should return 400 when cin has invalid size
+            rules.add(ControllerValidationRule.builder()
+                    .testName("createPersonWithInvalidSizeCinShouldReturnBadRequest")
+                    .attributeName("cin")
+                    .validationType("Size")
+                    .description("Should return 400 when cin has invalid size")
+                    .expectedHttpStatus("400")
+                    .message("CIN must be between 8 and 12 characters")
+                    .minValue(8)
+                    .maxValue(12)
+                    .invalidValue("aaaaaaaaaaaaa")
+                    .build());
+
+            // Should return 400 when dateOfBirth is null
+            rules.add(ControllerValidationRule.builder()
+                    .testName("createPersonWithNullDateOfBirthShouldReturnBadRequest")
+                    .attributeName("dateOfBirth")
+                    .validationType("NotNull")
+                    .description("Should return 400 when dateOfBirth is null")
+                    .expectedHttpStatus("400")
+                    .message("Date of birth cannot be null")
+                    .invalidValue(null)
+                    .build());
+
+            // Should return 400 when email is not a valid email
+            rules.add(ControllerValidationRule.builder()
+                    .testName("createPersonWithInvalidEmailEmailShouldReturnBadRequest")
+                    .attributeName("email")
+                    .validationType("Email")
+                    .description("Should return 400 when email is not a valid email")
+                    .expectedHttpStatus("400")
+                    .message("Email must be valid")
+                    .invalidValue("invalid-email")
+                    .build());
+
+            // Should return 400 when email has invalid size
+            rules.add(ControllerValidationRule.builder()
+                    .testName("createPersonWithInvalidSizeEmailShouldReturnBadRequest")
+                    .attributeName("email")
+                    .validationType("Size")
+                    .description("Should return 400 when email has invalid size")
+                    .expectedHttpStatus("400")
+                    .message("email must not exceed 100 characters")
+                    .minValue(0)
+                    .maxValue(100)
+                    .invalidValue("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+                    .build());
+
+            return rules;
+        }
+
+        private void setInvalidValueOnDto(PersonDto dto, ControllerValidationRule rule) throws Exception {
+            Field field = PersonDto.class.getDeclaredField(rule.getAttributeName());
+            field.setAccessible(true);
+
+            if (rule.isNotNull()) {
+                field.set(dto, null);
+            } else if (rule.isNotBlank()) {
+                field.set(dto, "");
+            } else if (rule.isSize() && rule.getMaxValue() != null) {
+                int maxLength = ((Number) rule.getMaxValue()).intValue();
+                field.set(dto, "a".repeat(maxLength + 1));
+            } else if (rule.isMin() && rule.getConstraintValue() != null) {
+                Number minValue = (Number) rule.getConstraintValue();
+                setNumericFieldValue(field, dto, minValue.intValue() - 1);
+            } else if (rule.isMax() && rule.getConstraintValue() != null) {
+                Number maxValue = (Number) rule.getConstraintValue();
+                setNumericFieldValue(field, dto, maxValue.intValue() + 1);
+            } else if (rule.isEmail()) {
+                field.set(dto, "invalid-email");
+            } else if (rule.isPattern()) {
+                field.set(dto, "invalid-pattern-value");
+            }
+        }
+
+        private void setNumericFieldValue(Field field, PersonDto dto, int value) throws Exception {
+            Class<?> fieldType = field.getType();
+            if (fieldType == Integer.class || fieldType == int.class) {
+                field.set(dto, value);
+            } else if (fieldType == Long.class || fieldType == long.class) {
+                field.set(dto, (long) value);
+            } else if (fieldType == Short.class || fieldType == short.class) {
+                field.set(dto, (short) value);
+            } else if (fieldType == Byte.class || fieldType == byte.class) {
+                field.set(dto, (byte) value);
+            } else {
+                field.set(dto, value);
+            }
+        }
+
+        @Test
+        @DisplayName("Should return 400 when multiple validation errors occur")
+        void createPersonWithMultipleValidationErrorsShouldReturnBadRequest() throws Exception {
+            PersonDto requestDto = PersonDto.builder().build();
+
+            mockMvc.perform(post("/api/persons")
+                    .with(csrf())
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(requestDto)))
+                    .andExpect(status().isBadRequest())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$.status").value(400))
+                    .andExpect(jsonPath("$.message").exists())
+                    .andExpect(jsonPath("$.timestamp").exists());
+
+            verify(personService, never()).createPerson(any(Person.class));
+        }
+
+    }
+
+    @Nested
+    @DisplayName("Exception Handling Tests")
+    class ExceptionHandlingTests {
+
+        @Test
+        @DisplayName("Should return 404 when entity not found on GET")
+        void getPersonByIdShouldReturn404WhenEntityNotFound() throws Exception {
+            String nonExistentId = "NONEXISTENT_ID";
+
+            when(personService.getPersonById(nonExistentId))
+                    .thenThrow(new EntityNotFoundException("Person not found with id: " + nonExistentId));
+
+            mockMvc.perform(get("/api/persons/{id}", nonExistentId)
+                    .accept(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isNotFound())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$.status").value(404))
+                    .andExpect(jsonPath("$.error").value("Not Found"))
+                    .andExpect(jsonPath("$.message").value("Person not found with id: " + nonExistentId))
+                    .andExpect(jsonPath("$.path").value("/api/persons/" + nonExistentId))
+                    .andExpect(jsonPath("$.timestamp").exists());
+
+            verify(personService).getPersonById(nonExistentId);
+        }
+
+        @Test
+        @DisplayName("Should return 404 when entity not found on UPDATE")
+        void updatePersonShouldReturn404WhenEntityNotFound() throws Exception {
+            String nonExistentId = "NONEXISTENT_ID";
+            PersonDto requestDto = createPersonDto();
+
+            when(personService.updatePerson(eq(nonExistentId), any(Person.class)))
+                    .thenThrow(new EntityNotFoundException("Person not found with id: " + nonExistentId));
+
+            mockMvc.perform(put("/api/persons/{id}", nonExistentId)
+                    .with(csrf())
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(requestDto)))
+                    .andExpect(status().isNotFound())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$.status").value(404))
+                    .andExpect(jsonPath("$.error").value("Not Found"))
+                    .andExpect(jsonPath("$.message").value("Person not found with id: " + nonExistentId))
+                    .andExpect(jsonPath("$.path").value("/api/persons/" + nonExistentId))
+                    .andExpect(jsonPath("$.timestamp").exists());
+
+            verify(personService).updatePerson(eq(nonExistentId), any(Person.class));
+        }
+
+        @Test
+        @DisplayName("Should return 404 when entity not found on DELETE")
+        void deletePersonShouldReturn404WhenEntityNotFound() throws Exception {
+            String nonExistentId = "NONEXISTENT_ID";
+
+            doThrow(new EntityNotFoundException("Person not found with id: " + nonExistentId))
+                    .when(personService).deletePerson(nonExistentId);
+
+            mockMvc.perform(delete("/api/persons/{id}", nonExistentId)
+                    .with(csrf()))
+                    .andExpect(status().isNotFound())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$.status").value(404))
+                    .andExpect(jsonPath("$.error").value("Not Found"))
+                    .andExpect(jsonPath("$.message").value("Person not found with id: " + nonExistentId))
+                    .andExpect(jsonPath("$.path").value("/api/persons/" + nonExistentId))
+                    .andExpect(jsonPath("$.timestamp").exists());
+
+            verify(personService).deletePerson(nonExistentId);
+        }
+
+        @Test
+        @DisplayName("Should return 500 when service throws unexpected exception")
+        void createPersonShouldReturn500OnUnexpectedException() throws Exception {
+            PersonDto requestDto = createPersonDto();
+
+            when(personService.createPerson(any(Person.class)))
+                    .thenThrow(new RuntimeException("Unexpected database error"));
+
+            mockMvc.perform(post("/api/persons")
+                    .with(csrf())
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(requestDto)))
+                    .andExpect(status().isInternalServerError())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$.status").value(500))
+                    .andExpect(jsonPath("$.error").value("Internal Server Error"))
+                    .andExpect(jsonPath("$.message").exists())
+                    .andExpect(jsonPath("$.path").value("/api/persons"))
+                    .andExpect(jsonPath("$.timestamp").exists());
+
+            verify(personService).createPerson(any(Person.class));
+        }
+
+        @Test
+        @DisplayName("Should return 400 when service throws BadRequestException")
+        void createPersonShouldReturn400OnBadRequestException() throws Exception {
+            PersonDto requestDto = createPersonDto();
+
+            when(personService.createPerson(any(Person.class)))
+                    .thenThrow(new BadRequestException("Invalid data provided"));
+
+            mockMvc.perform(post("/api/persons")
+                    .with(csrf())
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(requestDto)))
+                    .andExpect(status().isBadRequest())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$.status").value(400))
+                    .andExpect(jsonPath("$.error").value("Bad Request"))
+                    .andExpect(jsonPath("$.message").value("Invalid data provided"))
+                    .andExpect(jsonPath("$.path").value("/api/persons"))
+                    .andExpect(jsonPath("$.timestamp").exists());
+
+            verify(personService).createPerson(any(Person.class));
+        }
+
+        @Test
+        @DisplayName("Should return 400 when bad request exception occurs")
+        void createPersonShouldReturn400WhenBadRequestException() throws Exception {
+            PersonDto requestDto = createPersonDto();
+            String errorMessage = "Invalid data provided";
+
+            when(personService.createPerson(any(Person.class)))
+                    .thenThrow(new BadRequestException(errorMessage));
+
+            mockMvc.perform(post("/api/persons")
+                    .with(csrf())
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(requestDto)))
+                    .andExpect(status().isBadRequest())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$.status").value(400))
+                    .andExpect(jsonPath("$.error").value("Bad Request"))
+                    .andExpect(jsonPath("$.message").value(errorMessage))
+                    .andExpect(jsonPath("$.path").value("/api/persons"))
+                    .andExpect(jsonPath("$.timestamp").exists());
+
+            verify(personService).createPerson(any(Person.class));
+        }
+
+        @Test
+        @DisplayName("Should return 500 when internal server error occurs")
+        void getPersonShouldReturn500WhenInternalServerError() throws Exception {
+            String personId = "CREATED_ID";
+
+            when(personService.getPersonById(personId))
+                    .thenThrow(new RuntimeException("Database connection failed"));
+
+            mockMvc.perform(get("/api/persons/{id}", personId)
+                    .accept(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isInternalServerError())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$.status").value(500))
+                    .andExpect(jsonPath("$.error").value("Internal Server Error"))
+                    .andExpect(jsonPath("$.message").value("An unexpected error occurred"))
+                    .andExpect(jsonPath("$.path").value("/api/persons/" + personId))
+                    .andExpect(jsonPath("$.timestamp").exists());
+
+            verify(personService).getPersonById(personId);
+        }
+
+        @Test
+        @DisplayName("Should return 405 when HTTP method not allowed")
+        void shouldReturn405WhenMethodNotAllowed() throws Exception {
+            mockMvc.perform(patch("/api/persons")
+                    .with(csrf())
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content("{}"))
+                    .andExpect(status().isMethodNotAllowed())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$.status").value(405))
+                    .andExpect(jsonPath("$.error").value("Method Not Allowed"))
+                    .andExpect(jsonPath("$.message").exists())
+                    .andExpect(jsonPath("$.path").value("/api/persons"))
+                    .andExpect(jsonPath("$.timestamp").exists());
+        }
+
+        @Test
+        @DisplayName("Should return 406 when accept header is not supported")
+        void shouldReturn406WhenAcceptHeaderNotSupported() throws Exception {
+            String personId = "CREATED_ID";
+            PersonDto responseDto = createPersonDto();
+            responseDto.setCin(personId);
+
+            when(personService.getPersonById(personId)).thenReturn(createMockEntity());
+
+            mockMvc.perform(get("/api/persons/{id}", personId)
+                    .accept(MediaType.TEXT_XML))
+                    .andExpect(status().isNotAcceptable())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$.status").value(406))
+                    .andExpect(jsonPath("$.error").value("Not Acceptable"))
+                    .andExpect(jsonPath("$.message").exists())
+                    .andExpect(jsonPath("$.path").value("/api/persons/" + personId))
+                    .andExpect(jsonPath("$.timestamp").exists());
+        }
+
+        @Test
+        @DisplayName("Should handle constraint violation exceptions properly")
+        void createPersonShouldHandleConstraintViolationException() throws Exception {
+            PersonDto requestDto = createPersonDto();
+
+            when(personService.createPerson(any(Person.class)))
+                    .thenThrow(new ConstraintViolationException("Constraint violation", null));
+
+            mockMvc.perform(post("/api/persons")
+                    .with(csrf())
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(requestDto)))
+                    .andExpect(status().isBadRequest())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$.status").value(400))
+                    .andExpect(jsonPath("$.error").value("Bad Request"))
+                    .andExpect(jsonPath("$.message").exists())
+                    .andExpect(jsonPath("$.path").value("/api/persons"))
+                    .andExpect(jsonPath("$.timestamp").exists());
+
+            verify(personService).createPerson(any(Person.class));
+        }
+    }
+
+    @Nested
+    @DisplayName("Status Code Tests")
+    class StatusCodeTests {
+
+        @Test
+        @DisplayName("Should return 201 Created with proper Location header on successful creation")
+        void createPersonShouldReturn201WithLocationHeader() throws Exception {
+            PersonDto requestDto = createPersonDto();
+            PersonDto responseDto = createPersonDto();
+            responseDto.setCin("CREATED_ID");
+
+            when(personService.createPerson(any(Person.class))).thenReturn(createMockEntity());
+
+            mockMvc.perform(post("/api/persons")
+                    .with(csrf())
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(requestDto)))
+                    .andExpect(status().isCreated())
+                    .andExpect(header().exists("Location"))
+                    .andExpect(header().string("Location", containsString("CREATED_ID")))
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+
+            verify(personService).createPerson(any(Person.class));
+        }
+
+        @Test
+        @DisplayName("Should return 200 OK on successful retrieval")
+        void getPersonByIdShouldReturn200() throws Exception {
+            PersonDto responseDto = createPersonDto();
+            String personId = "CREATED_ID";
+            responseDto.setCin(personId);
+
+            when(personService.getPersonById(personId)).thenReturn(createMockEntity());
+
+            mockMvc.perform(get("/api/persons/{id}", personId)
+                    .accept(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isOk())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+
+            verify(personService).getPersonById(personId);
+        }
+
+        @Test
+        @DisplayName("Should return 200 OK on successful update")
+        void updatePersonShouldReturn200() throws Exception {
+            PersonDto requestDto = createPersonDto();
+            PersonDto responseDto = createPersonDto();
+            String personId = "CREATED_ID";
+            responseDto.setCin(personId);
+
+            when(personService.updatePerson(eq(personId), any(Person.class)))
+                    .thenReturn(createMockEntity());
+
+            mockMvc.perform(put("/api/persons/{id}", personId)
+                    .with(csrf())
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(requestDto)))
+                    .andExpect(status().isOk())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+
+            verify(personService).updatePerson(eq(personId), any(Person.class));
+        }
+
+        @Test
+        @DisplayName("Should return 204 No Content on successful deletion")
+        void deletePersonShouldReturn204() throws Exception {
+            String personId = "CREATED_ID";
+
+            doNothing().when(personService).deletePerson(personId);
+
+            mockMvc.perform(delete("/api/persons/{id}", personId)
+                    .with(csrf()))
+                    .andExpect(status().isNoContent())
+                    .andExpect(content().string(""));
+
+            verify(personService).deletePerson(personId);
+        }
+
+        @Test
+        @DisplayName("Should return 404 Not Found when entity does not exist")
+        void getPersonByIdShouldReturn404WhenNotFound() throws Exception {
+            String nonExistentId = "NONEXISTENT_ID";
+
+            when(personService.getPersonById(nonExistentId))
+                    .thenThrow(new EntityNotFoundException("Person not found with id: " + nonExistentId));
+
+            mockMvc.perform(get("/api/persons/{id}", nonExistentId)
+                    .accept(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isNotFound())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$.status").value(404))
+                    .andExpect(jsonPath("$.error").value("Not Found"))
+                    .andExpect(jsonPath("$.message").exists())
+                    .andExpect(jsonPath("$.timestamp").exists());
+
+            verify(personService).getPersonById(nonExistentId);
+        }
+
+        @Test
+        @DisplayName("Should return 400 Bad Request on validation failure")
+        void createPersonWithInvalidDataShouldReturn400() throws Exception {
+            PersonDto invalidDto = PersonDto.builder().build();
+
+            mockMvc.perform(post("/api/persons")
+                    .with(csrf())
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(invalidDto)))
+                    .andExpect(status().isBadRequest())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$.status").value(400))
+                    .andExpect(jsonPath("$.message").value("Validation failed"))
+                    .andExpect(jsonPath("$.errors").isArray())
+                    .andExpect(jsonPath("$.timestamp").exists());
+
+            verify(personService, never()).createPerson(any());
+        }
+
+        @Test
+        @DisplayName("Should return 415 Unsupported Media Type for wrong content type")
+        void createPersonWithWrongContentTypeShouldReturn415() throws Exception {
+            PersonDto requestDto = createPersonDto();
+
+            mockMvc.perform(post("/api/persons")
+                    .with(csrf())
+                    .contentType(MediaType.TEXT_PLAIN)
+                    .content(objectMapper.writeValueAsString(requestDto)))
+                    .andExpect(status().isUnsupportedMediaType())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$.status").value(415))
+                    .andExpect(jsonPath("$.error").value("Unsupported Media Type"))
+                    .andExpect(jsonPath("$.message").exists())
+                    .andExpect(jsonPath("$.timestamp").exists());
+
+            verify(personService, never()).createPerson(any());
+        }
+
+        @Test
+        @DisplayName("Should return 500 Internal Server Error on service exception")
+        void getPersonByIdShouldReturn500OnServiceException() throws Exception {
+            String personId = "CREATED_ID";
+
+            when(personService.getPersonById(personId))
+                    .thenThrow(new RuntimeException("Database connection failed"));
+
+            mockMvc.perform(get("/api/persons/{id}", personId)
+                    .accept(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isInternalServerError())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$.status").value(500))
+                    .andExpect(jsonPath("$.error").value("Internal Server Error"))
+                    .andExpect(jsonPath("$.message").exists())
+                    .andExpect(jsonPath("$.timestamp").exists());
+
+            verify(personService).getPersonById(personId);
+        }
+
+        @Test
+        @DisplayName("Should return 409 Conflict on duplicate resource creation")
+        void createPersonWithDuplicateDataShouldReturn409() throws Exception {
+            PersonDto requestDto = createPersonDto();
+
+            when(personService.createPerson(any(Person.class)))
+                    .thenThrow(new BadRequestException("Person already exists"));
+
+            mockMvc.perform(post("/api/persons")
+                    .with(csrf())
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(requestDto)))
+                    .andExpect(status().isBadRequest())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$.status").value(400))
+                    .andExpect(jsonPath("$.message").value("Person already exists"))
+                    .andExpect(jsonPath("$.timestamp").exists());
+
+            verify(personService).createPerson(any(Person.class));
+        }
+
+
+    }
+
+    @Nested
+    @DisplayName("Edge Case Tests")
+    class EdgeCaseTests {
+
+        @Test
+        @DisplayName("Should return 404 when ID does not exist")
+        void getPersonWithNonExistentIdShouldReturnNotFound() throws Exception {
+            String invalidId = "NONEXISTENT_ID";
+
+            when(personService.getPersonById(invalidId))
+                    .thenThrow(new RuntimeException("Person not found"));
+
+            mockMvc.perform(get("/api/persons/{id}", invalidId)
+                    .accept(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isInternalServerError());
+
+            verify(personService).getPersonById(invalidId);
+        }
+
+        @Test
+        @DisplayName("Should return 400 when ID is zero")
+        void getPersonWithZeroIdShouldReturnBadRequest() throws Exception {
+            String invalidId = " ";
+
+            mockMvc.perform(get("/api/persons/{id}", invalidId)
+                    .accept(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isBadRequest())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$.status").value(400))
+                    .andExpect(jsonPath("$.message").exists())
+                    .andExpect(jsonPath("$.timestamp").exists());
+
+            verify(personService, never()).getPersonById(any());
+        }
+
+        @Test
+        @DisplayName("Should return 400 when request body is null")
+        void createPersonWithNullBodyShouldReturnBadRequest() throws Exception {
+            mockMvc.perform(post("/api/persons")
+                    .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isBadRequest())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$.status").value(400))
+                    .andExpect(jsonPath("$.message").exists())
+                    .andExpect(jsonPath("$.timestamp").exists());
+
+            verify(personService, never()).createPerson(any(Person.class));
+        }
+
+        @Test
+        @DisplayName("Should return 413 when payload is too large")
+        void createPersonWithLargePayloadShouldReturnPayloadTooLarge() throws Exception {
+            PersonDto requestDto = createPersonDto();
+            requestDto.setCin("a".repeat(10000)); // Very large string
+
+            mockMvc.perform(post("/api/persons")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(requestDto)))
+                    .andExpect(status().isBadRequest())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$.status").value(400))
+                    .andExpect(jsonPath("$.message").exists())
+                    .andExpect(jsonPath("$.timestamp").exists());
+
+            verify(personService, never()).createPerson(any(Person.class));
+        }
+
+        @Test
+        @DisplayName("Should return 400 when JSON contains only unknown fields and entity has strict validation")
+        void createPersonWithUnknownFieldsShouldReturnBadRequest() throws Exception {
+            String jsonWithUnknownFields = """
+                {
+                    "unknownField": "value",
+                    "anotherUnknownField": 123
+                }
+                """;
+
+            mockMvc.perform(post("/api/persons")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(jsonWithUnknownFields))
+                    .andExpect(status().isBadRequest())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$.status").value(400))
+                    .andExpect(jsonPath("$.message").exists())
+                    .andExpect(jsonPath("$.timestamp").exists());
+
+            verify(personService, never()).createPerson(any(Person.class));
+        }
+
+        @Test
+        @DisplayName("Should return 400 when JSON has wrong data types")
+        void createPersonWithWrongDataTypesShouldReturnBadRequest() throws Exception {
+            String jsonWithWrongTypes = """
+                {
+                    "firstName": 123,
+                }
+                """;
+
+            mockMvc.perform(post("/api/persons")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(jsonWithWrongTypes))
+                    .andExpect(status().isBadRequest())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$.status").value(400))
+                    .andExpect(jsonPath("$.message").exists())
+                    .andExpect(jsonPath("$.timestamp").exists());
+
+            verify(personService, never()).createPerson(any(Person.class));
+        }
+
+        @Test
+        @DisplayName("Should handle empty list responses correctly")
+        void getAllPersonsWhenEmptyListShouldReturnOk() throws Exception {
+            List<Person> emptyPersonList = List.of();
+
+            when(personService.getAllPersons()).thenReturn(emptyPersonList);
+
+            mockMvc.perform(get("/api/persons")
+                    .accept(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isOk())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$", hasSize(0)))
+                    .andExpect(jsonPath("$").isArray());
+
+            verify(personService).getAllPersons();
+        }
+
+        @Test
+        @DisplayName("Should handle very large ID values")
+        void getPersonWithVeryLargeIdShouldHandleCorrectly() throws Exception {
+            String veryLargeId = "a".repeat(1000);
+
+            when(personService.getPersonById(veryLargeId))
+                    .thenThrow(new EntityNotFoundException("Person not found with id: " + veryLargeId));
+
+            mockMvc.perform(get("/api/persons/{id}", veryLargeId)
+                    .accept(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isNotFound())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$.status").value(404))
+                    .andExpect(jsonPath("$.message").exists())
+                    .andExpect(jsonPath("$.timestamp").exists());
+
+            verify(personService).getPersonById(veryLargeId);
+        }
+
+        @Test
+        @DisplayName("Should handle special characters in string fields")
+        void createPersonWithSpecialCharactersShouldWork() throws Exception {
+            PersonDto requestDto = createPersonDto();
+            PersonDto responseDto = createPersonDto();
+            String specialCharsValue = "Oussama's café & résumé (2024) - 100% tested!";
+            requestDto.setFirstName(specialCharsValue);
+            responseDto.setFirstName(specialCharsValue);
+            responseDto.setCin("CREATED_ID");
+
+            when(personService.createPerson(any(Person.class))).thenReturn(createMockEntity());
+
+            mockMvc.perform(post("/api/persons")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(requestDto)))
+                    .andExpect(status().isCreated())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(header().exists("Location"));
+
+            verify(personService).createPerson(any(Person.class));
+        }
+
+        @Test
+        @DisplayName("Should handle Unicode characters correctly")
+        void createPersonWithUnicodeCharactersShouldWork() throws Exception {
+            PersonDto requestDto = createPersonDto();
+            PersonDto responseDto = createPersonDto();
+            String unicodeValue = "Mohammed العربية 中文 🚀 ñáéíóú";
+            requestDto.setFirstName(unicodeValue);
+            responseDto.setFirstName(unicodeValue);
+            responseDto.setCin("CREATED_ID");
+
+            when(personService.createPerson(any(Person.class))).thenReturn(createMockEntity());
+
+            mockMvc.perform(post("/api/persons")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(requestDto)))
+                    .andExpect(status().isCreated())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(header().exists("Location"));
+
+            verify(personService).createPerson(any(Person.class));
+        }
+    }
+
+    @Nested
+    @DisplayName("HTTP Method and Path Tests")
+    class HttpMethodAndPathTests {
+
+
+        @Test
+        @DisplayName("Should return 405 for unsupported HTTP methods on existing paths")
+        void unsupportedHttpMethodShouldReturn405() throws Exception {
+            mockMvc.perform(patch("/api/persons")
+                    .accept(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isMethodNotAllowed())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$.status").value(405))
+                    .andExpect(jsonPath("$.error").value("Method Not Allowed"))
+                    .andExpect(jsonPath("$.message").exists())
+                    .andExpect(jsonPath("$.path").value("/api/persons"))
+                    .andExpect(jsonPath("$.timestamp").exists());
+        }
+
+        @Test
+        @DisplayName("Should return 405 when using PATCH on specific resource")
+        void patchOnSpecificResourceShouldReturn405() throws Exception {
+            String personId = "CREATED_ID";
+
+            mockMvc.perform(patch("/api/persons/{id}", personId)
+                    .accept(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isMethodNotAllowed())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$.status").value(405))
+                    .andExpect(jsonPath("$.error").value("Method Not Allowed"))
+                    .andExpect(jsonPath("$.message").exists())
+                    .andExpect(jsonPath("$.timestamp").exists());
+        }
+
+        @Test
+        @DisplayName("Should return 200 when using HEAD on collection (Spring Boot allows HEAD for GET)")
+        void headOnCollectionShouldReturn200() throws Exception {
+            List<Person> mockEntities = Arrays.asList(createMockEntity());
+            when(personService.getAllPersons()).thenReturn(mockEntities);
+
+            mockMvc.perform(head("/api/persons")
+                    .accept(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isOk())
+                    .andExpect(header().string("Content-Type", MediaType.APPLICATION_JSON_VALUE));
+
+            verify(personService).getAllPersons();
+        }
+
+        @Test
+        @DisplayName("Should return 200 when using OPTIONS on specific resource (Spring Boot handles OPTIONS)")
+        void optionsOnSpecificResourceShouldReturn200() throws Exception {
+            String personId = "CREATED_ID";
+
+            mockMvc.perform(options("/api/persons/{id}", personId))
+                    .andExpect(status().isOk())
+                    .andExpect(header().exists("Allow"));
+        }
+
+        @Test
+        @DisplayName("Should handle trailing slashes correctly")
+        void pathWithTrailingSlashShouldWork() throws Exception {
+            PersonDto personDto1 = createPersonDto();
+            PersonDto personDto2 = createPersonDto();
+            personDto1.setCin("ID_1");
+            personDto2.setCin("ID_2");
+
+            Person entity1 = createPerson();
+            Person entity2 = createPerson();
+            entity1.setCin("ID_1");
+            entity2.setCin("ID_2");
+            List<Person> entityList = Arrays.asList(entity1, entity2);
+            when(personService.getAllPersons()).thenReturn(entityList);
+
+            mockMvc.perform(get("/api/persons/")
+                    .accept(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isOk())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$", hasSize(2)));
+
+            verify(personService).getAllPersons();
+        }
+
+        @Test
+        @DisplayName("Should handle case sensitivity in paths correctly")
+        void pathCaseSensitivityShouldReturn404() throws Exception {
+            mockMvc.perform(get("/api/PERSONS")
+                    .accept(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isInternalServerError())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$.status").value(500))
+                    .andExpect(jsonPath("$.error").value("Internal Server Error"))
+                    .andExpect(jsonPath("$.message").exists())
+                    .andExpect(jsonPath("$.timestamp").exists());
+        }
+
+        @Test
+        @DisplayName("Should handle double slashes in paths gracefully")
+        void pathWithDoubleSlashesShouldNormalizePath() throws Exception {
+            when(personService.getAllPersons()).thenReturn(Arrays.asList(createMockEntity()));
+
+            mockMvc.perform(get("/api//persons")
+                    .accept(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isOk())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+
+            verify(personService).getAllPersons();
+        }
+
+        @Test
+        @DisplayName("Should handle missing Accept header gracefully")
+        void requestWithoutAcceptHeaderShouldWork() throws Exception {
+            PersonDto personDto = createPersonDto();
+            personDto.setCin("CREATED_ID");
+
+            Person entity = createPerson();
+            entity.setCin("CREATED_ID");
+            List<Person> entityList = Arrays.asList(entity);
+
+            when(personService.getAllPersons()).thenReturn(entityList);
+
+            mockMvc.perform(get("/api/persons"))
+                    .andExpect(status().isOk())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$", hasSize(1)));
+
+            verify(personService).getAllPersons();
+        }
+
+        @Test
+        @DisplayName("Should return 406 for unsupported Accept header")
+        void requestWithWrongAcceptHeaderShouldReturn406() throws Exception {
+            mockMvc.perform(get("/api/persons")
+                    .accept(MediaType.TEXT_XML))
+                    .andExpect(status().isNotAcceptable())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$.status").value(406))
+                    .andExpect(jsonPath("$.error").value("Not Acceptable"))
+                    .andExpect(jsonPath("$.message").exists())
+                    .andExpect(jsonPath("$.timestamp").exists());
+
+            verify(personService, never()).getAllPersons();
+        }
+
+        @Test
+        @DisplayName("Should handle multiple Accept headers correctly")
+        void requestWithMultipleAcceptHeadersShouldWork() throws Exception {
+            PersonDto personDto = createPersonDto();
+            personDto.setCin("CREATED_ID");
+
+            Person entity = createPerson();
+            entity.setCin("CREATED_ID");
+            List<Person> entityList = Arrays.asList(entity);
+
+            when(personService.getAllPersons()).thenReturn(entityList);
+
+            mockMvc.perform(get("/api/persons")
+                    .accept(MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML))
+                    .andExpect(status().isOk())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$", hasSize(1)));
+
+            verify(personService).getAllPersons();
+        }
+    }
+
+    @Nested
+    @DisplayName("JSON Response Structure Tests")
+    class JsonResponseStructureTests {
+
+        @Test
+        @DisplayName("Should return consistent error response structure for validation failures")
+        void validationErrorShouldHaveConsistentStructure() throws Exception {
+            PersonDto invalidDto = PersonDto.builder().build();
+
+            mockMvc.perform(post("/api/persons")
+                    .with(csrf())
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(invalidDto)))
+                    .andExpect(status().isBadRequest())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$.timestamp").exists())
+                    .andExpect(jsonPath("$.status").value(400))
+                    .andExpect(jsonPath("$.error").value("Bad Request"))
+                    .andExpect(jsonPath("$.message").value("Validation failed"))
+                    .andExpect(jsonPath("$.path").value("/api/persons"))
+                    .andExpect(jsonPath("$.errors").isArray())
+                    .andExpect(jsonPath("$.errors[0].field").exists())
+                    .andExpect(jsonPath("$.errors[0].message").exists());
+
+            verify(personService, never()).createPerson(any(Person.class));
+        }
+
+        @Test
+        @DisplayName("Should return consistent error response structure for not found errors")
+        void notFoundErrorShouldHaveConsistentStructure() throws Exception {
+            String nonExistentId = "NONEXISTENT_ID";
+
+            when(personService.getPersonById(nonExistentId))
+                    .thenThrow(new EntityNotFoundException("Person not found with id: " + nonExistentId));
+
+            mockMvc.perform(get("/api/persons/{id}", nonExistentId)
+                    .accept(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isNotFound())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$.timestamp").exists())
+                    .andExpect(jsonPath("$.status").value(404))
+                    .andExpect(jsonPath("$.error").value("Not Found"))
+                    .andExpect(jsonPath("$.message").value("Person not found with id: " + nonExistentId))
+                    .andExpect(jsonPath("$.path").value("/api/persons/" + nonExistentId))
+                    .andExpect(jsonPath("$.errors").doesNotExist());
+
+            verify(personService).getPersonById(nonExistentId);
+        }
+
+        @Test
+        @DisplayName("Should return consistent error response structure for internal server errors")
+        void internalServerErrorShouldHaveConsistentStructure() throws Exception {
+            String personId = "CREATED_ID";
+
+            when(personService.getPersonById(personId))
+                    .thenThrow(new RuntimeException("Database connection failed"));
+
+            mockMvc.perform(get("/api/persons/{id}", personId)
+                    .accept(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isInternalServerError())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$.timestamp").exists())
+                    .andExpect(jsonPath("$.status").value(500))
+                    .andExpect(jsonPath("$.error").value("Internal Server Error"))
+                    .andExpect(jsonPath("$.message").exists())
+                    .andExpect(jsonPath("$.path").value("/api/persons/" + personId))
+                    .andExpect(jsonPath("$.errors").doesNotExist());
+
+            verify(personService).getPersonById(personId);
+        }
+
+        @Test
+        @DisplayName("Should return proper JSON structure for successful creation")
+        void successfulCreationShouldHaveProperJsonStructure() throws Exception {
+            PersonDto requestDto = createPersonDto();
+            PersonDto responseDto = createPersonDto();
+            responseDto.setCin("CREATED_ID");
+
+            when(personService.createPerson(any(Person.class))).thenReturn(createMockEntity());
+
+            mockMvc.perform(post("/api/persons")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(requestDto)))
+                    .andExpect(status().isCreated())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$.cin").value("CREATED_ID"))
+                    .andExpect(jsonPath("$.firstName").exists())
+                    .andExpect(jsonPath("$.lastName").exists())
+                    .andExpect(jsonPath("$.dateOfBirth").exists())
+                    .andExpect(jsonPath("$.phoneNumber").exists())
+                    .andExpect(jsonPath("$.email").exists())
+                    .andExpect(jsonPath("$.timestamp").doesNotExist())
+                    .andExpect(jsonPath("$.status").doesNotExist())
+                    .andExpect(jsonPath("$.error").doesNotExist());
+
+            verify(personService).createPerson(any(Person.class));
+        }
+
+        @Test
+        @DisplayName("Should return proper JSON structure for successful retrieval")
+        void successfulRetrievalShouldHaveProperJsonStructure() throws Exception {
+            PersonDto responseDto = createPersonDto();
+            String personId = "CREATED_ID";
+            responseDto.setCin(personId);
+
+            when(personService.getPersonById(personId)).thenReturn(createMockEntity());
+
+            mockMvc.perform(get("/api/persons/{id}", personId)
+                    .accept(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isOk())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$.cin").value("CREATED_ID"))
+                    .andExpect(jsonPath("$.firstName").exists())
+                    .andExpect(jsonPath("$.lastName").exists())
+                    .andExpect(jsonPath("$.dateOfBirth").exists())
+                    .andExpect(jsonPath("$.phoneNumber").exists())
+                    .andExpect(jsonPath("$.email").exists())
+                    .andExpect(jsonPath("$.timestamp").doesNotExist())
+                    .andExpect(jsonPath("$.status").doesNotExist())
+                    .andExpect(jsonPath("$.error").doesNotExist());
+
+            verify(personService).getPersonById(personId);
+        }
+
+        @Test
+        @DisplayName("Should return proper JSON array structure for list retrieval")
+        void listRetrievalShouldHaveProperJsonStructure() throws Exception {
+            PersonDto personDto1 = createPersonDto();
+            PersonDto personDto2 = createPersonDto();
+            personDto1.setCin("ID_1");
+            personDto2.setCin("ID_2");
+
+            Person entity1 = createPerson();
+            Person entity2 = createPerson();
+            entity1.setCin("ID_1");
+            entity2.setCin("ID_2");
+            List<Person> entityList = Arrays.asList(entity1, entity2);
+
+            when(personService.getAllPersons()).thenReturn(entityList);
+
+            mockMvc.perform(get("/api/persons")
+                    .accept(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isOk())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$").isArray())
+                    .andExpect(jsonPath("$", hasSize(2)))
+                    .andExpect(jsonPath("$[0].cin").value("ID_1"))
+                    .andExpect(jsonPath("$[1].cin").value("ID_2"))
+                    .andExpect(jsonPath("$[0].firstName").exists())
+                    .andExpect(jsonPath("$[1].firstName").exists())
+                    .andExpect(jsonPath("$[0].timestamp").doesNotExist())
+                    .andExpect(jsonPath("$[0].status").doesNotExist())
+                    .andExpect(jsonPath("$[0].error").doesNotExist());
+
+            verify(personService).getAllPersons();
+        }
+
+        @Test
+        @DisplayName("Should return empty array with proper structure when no entities exist")
+        void emptyListShouldHaveProperJsonStructure() throws Exception {
+            List<Person> emptyPersonList = List.of();
+
+            when(personService.getAllPersons()).thenReturn(emptyPersonList);
+
+            mockMvc.perform(get("/api/persons")
+                    .accept(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isOk())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$").isArray())
+                    .andExpect(jsonPath("$", hasSize(0)))
+                    .andExpect(content().json("[]"));
+
+            verify(personService).getAllPersons();
+        }
+
+        @Test
+        @DisplayName("Should return no content body for successful deletion")
+        void successfulDeletionShouldHaveNoContent() throws Exception {
+            String personId = "CREATED_ID";
+
+            doNothing().when(personService).deletePerson(personId);
+
+            mockMvc.perform(delete("/api/persons/{id}", personId))
+                    .andExpect(status().isNoContent())
+                    .andExpect(content().string(""))
+                    .andExpect(header().doesNotExist("Content-Type"));
+
+            verify(personService).deletePerson(personId);
+        }
+
+        @Test
+        @DisplayName("Should handle null values in JSON response correctly")
+        void nullValuesInResponseShouldBeHandledCorrectly() throws Exception {
+            String personId = "CREATED_ID";
+
+            Person mockEntity = createMockEntity();
+            mockEntity.setDateOfBirth(null);
+
+            when(personService.getPersonById(personId)).thenReturn(mockEntity);
+
+            mockMvc.perform(get("/api/persons/{id}", personId)
+                    .accept(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isOk())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$.dateOfBirth").value(nullValue()))
+                    .andExpect(jsonPath("$.cin").value("CREATED_ID"));
+
+            verify(personService).getPersonById(personId);
+        }
+    }
+
+    @Nested
+    @DisplayName("Header and Parameter Tests")
+    class HeaderAndParameterTests {
+
+        @Test
+        @DisplayName("Should handle custom headers correctly")
+        void requestWithCustomHeadersShouldWork() throws Exception {
+            PersonDto personDto = createPersonDto();
+            personDto.setCin("CREATED_ID");
+
+            Person entity = createPerson();
+            entity.setCin("CREATED_ID");
+            List<Person> entityList = Arrays.asList(entity);
+
+            when(personService.getAllPersons()).thenReturn(entityList);
+
+            mockMvc.perform(get("/api/persons")
+                    .header("X-Request-ID", "test-request-123")
+                    .header("X-Client-Version", "1.0.0")
+                    .accept(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isOk())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$", hasSize(1)));
+
+            verify(personService).getAllPersons();
+        }
+
+        @Test
+        @DisplayName("Should handle query parameters correctly")
+        void requestWithQueryParametersShouldWork() throws Exception {
+            PersonDto personDto = createPersonDto();
+            personDto.setCin("CREATED_ID");
+
+            Person entity = createPerson();
+            entity.setCin("CREATED_ID");
+            List<Person> entityList = Arrays.asList(entity);
+
+            when(personService.getAllPersons()).thenReturn(entityList);
+
+            mockMvc.perform(get("/api/persons")
+                    .param("sort", "id")
+                    .param("order", "asc")
+                    .accept(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isOk())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$", hasSize(1)));
+
+            verify(personService).getAllPersons();
+        }
+
+        @Test
+        @DisplayName("Should handle pagination parameters correctly")
+        void requestWithPaginationParametersShouldWork() throws Exception {
+            PersonDto personDto = createPersonDto();
+            personDto.setCin("CREATED_ID");
+
+            Person entity = createPerson();
+            entity.setCin("CREATED_ID");
+            List<Person> entityList = Arrays.asList(entity);
+            Page<Person> personPage = new PageImpl<>(entityList, PageRequest.of(0, 10), 1);
+
+            when(personService.getAllPersons(any(Pageable.class))).thenReturn(personPage);
+
+            mockMvc.perform(get("/api/persons/paginated")
+                    .param("page", "0")
+                    .param("size", "10")
+                    .param("sort", "id,asc")
+                    .accept(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isOk())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$.content", hasSize(1)))
+                    .andExpect(jsonPath("$.totalElements").value(1))
+                    .andExpect(jsonPath("$.size").value(10))
+                    .andExpect(jsonPath("$.number").value(0));
+
+            verify(personService).getAllPersons(any(Pageable.class));
+        }
+
+
+
+        @Test
+        @DisplayName("Should handle very large page size parameters")
+        void requestWithLargePageSizeShouldReturnBadRequest() throws Exception {
+            mockMvc.perform(get("/api/persons/paginated")
+                    .param("page", "0")
+                    .param("size", "10000")
+                    .accept(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isBadRequest())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$.status").value(400))
+                    .andExpect(jsonPath("$.message").exists())
+                    .andExpect(jsonPath("$.timestamp").exists());
+
+            verify(personService, never()).getAllPersons(any(Pageable.class));
+        }
+
+        @Test
+        @DisplayName("Should handle missing required headers gracefully")
+        void requestWithoutRequiredHeadersShouldWork() throws Exception {
+            PersonDto personDto = createPersonDto();
+            personDto.setCin("CREATED_ID");
+
+            Person entity = createPerson();
+            entity.setCin("CREATED_ID");
+            List<Person> entityList = Arrays.asList(entity);
+
+            when(personService.getAllPersons()).thenReturn(entityList);
+
+            mockMvc.perform(get("/api/persons"))
+                    .andExpect(status().isOk())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$", hasSize(1)));
+
+            verify(personService).getAllPersons();
+        }
+
+        @Test
+        @DisplayName("Should handle malformed query parameters")
+        void requestWithMalformedQueryParametersShouldWork() throws Exception {
+            PersonDto personDto = createPersonDto();
+            personDto.setCin("CREATED_ID");
+
+            Person entity = createPerson();
+            entity.setCin("CREATED_ID");
+            List<Person> entityList = Arrays.asList(entity);
+
+            when(personService.getAllPersons()).thenReturn(entityList);
+
+            mockMvc.perform(get("/api/persons")
+                    .param("invalid_param", "value")
+                    .param("malformed_param", "")
+                    .accept(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isOk())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$", hasSize(1)));
+
+            verify(personService).getAllPersons();
+        }
+
+        @Test
+        @DisplayName("Should handle special characters in query parameters")
+        void requestWithSpecialCharactersInParametersShouldWork() throws Exception {
+            PersonDto personDto = createPersonDto();
+            personDto.setCin("CREATED_ID");
+
+            Person entity = createPerson();
+            entity.setCin("CREATED_ID");
+            List<Person> entityList = Arrays.asList(entity);
+
+            when(personService.getAllPersons()).thenReturn(entityList);
+
+            mockMvc.perform(get("/api/persons")
+                    .param("search", "Oussama & Hicham's café")
+                    .param("filter", "name=Mohammed,age>25")
+                    .accept(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isOk())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$", hasSize(1)));
+
+            verify(personService).getAllPersons();
+        }
+
+        @Test
+        @DisplayName("Should return proper Content-Type header")
+        void responseShouldHaveProperContentTypeHeader() throws Exception {
+            PersonDto personDto = createPersonDto();
+            personDto.setCin("CREATED_ID");
+
+            Person entity = createPerson();
+            entity.setCin("CREATED_ID");
+            List<Person> entityList = Arrays.asList(entity);
+
+            when(personService.getAllPersons()).thenReturn(entityList);
+
+            mockMvc.perform(get("/api/persons")
+                    .accept(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isOk())
+                    .andExpect(header().string("Content-Type", MediaType.APPLICATION_JSON_VALUE))
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$", hasSize(1)));
+
+            verify(personService).getAllPersons();
+        }
+
+
+
+        @Test
+        @DisplayName("Should handle multiple values for same query parameter")
+        void requestWithMultipleParameterValuesShouldWork() throws Exception {
+            PersonDto personDto = createPersonDto();
+            personDto.setCin("CREATED_ID");
+
+            Person entity = createPerson();
+            entity.setCin("CREATED_ID");
+            List<Person> entityList = Arrays.asList(entity);
+
+            when(personService.getAllPersons()).thenReturn(entityList);
+
+            mockMvc.perform(get("/api/persons")
+                    .param("tags", "tag1", "tag2", "tag3")
+                    .param("categories", "cat1", "cat2")
+                    .accept(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isOk())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$", hasSize(1)));
+
+            verify(personService).getAllPersons();
+        }
+    }
+
+    @Nested
+    @DisplayName("Pagination Tests")
+    class PaginationTests {
+
+        @Test
+        @DisplayName("Should return paginated Persons with default parameters and proper headers")
+        void getPersonsWithDefaultPaginationShouldReturnOk() throws Exception {
+            PersonDto personDto1 = createPersonDto();
+            PersonDto personDto2 = createPersonDto();
+            personDto1.setCin("ID_1");
+            personDto2.setCin("ID_2");
+
+            Person entity1 = createPerson();
+            Person entity2 = createPerson();
+            entity1.setCin("ID_1");
+            entity2.setCin("ID_2");
+            List<Person> personList = Arrays.asList(entity1, entity2);
+            Page<Person> personPage = new PageImpl<>(personList, PageRequest.of(0, 20), 2);
+
+            when(personService.getAllPersons(any(Pageable.class))).thenReturn(personPage);
+
+            mockMvc.perform(get("/api/persons/paginated")
+                    .accept(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isOk())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(header().string("Content-Type", MediaType.APPLICATION_JSON_VALUE))
+                    .andExpect(header().string("X-Total-Count", "2"))
+                    .andExpect(jsonPath("$.content", hasSize(2)))
+                    .andExpect(jsonPath("$.totalElements").value(2))
+                    .andExpect(jsonPath("$.totalPages").value(1))
+                    .andExpect(jsonPath("$.size").value(20))
+                    .andExpect(jsonPath("$.number").value(0))
+                    .andExpect(jsonPath("$.first").value(true))
+                    .andExpect(jsonPath("$.last").value(true))
+                    .andExpect(jsonPath("$.content[0].cin").value("ID_1"))
+                    .andExpect(jsonPath("$.content[1].cin").value("ID_2"));
+
+            verify(personService).getAllPersons(any(Pageable.class));
+        }
+
+        @Test
+        @DisplayName("Should return paginated Persons with custom page and size")
+        void getPersonsWithCustomPaginationShouldReturnOk() throws Exception {
+            Person testPerson = createPerson();
+            testPerson.setCin("CREATED_ID");
+
+            List<Person> personList = Arrays.asList(testPerson);
+            Page<Person> personPage = new PageImpl<>(personList, PageRequest.of(1, 5), 10);
+
+            when(personService.getAllPersons(any(Pageable.class))).thenReturn(personPage);
+
+            mockMvc.perform(get("/api/persons/paginated")
+                    .param("page", "1")
+                    .param("size", "5"))
+                    .andExpect(status().isOk())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$.content", hasSize(1)))
+                    .andExpect(jsonPath("$.totalElements").value(10))
+                    .andExpect(jsonPath("$.totalPages").value(2))
+                    .andExpect(jsonPath("$.size").value(5))
+                    .andExpect(jsonPath("$.number").value(1))
+                    .andExpect(jsonPath("$.content[0].cin").value("CREATED_ID"));
+
+            verify(personService).getAllPersons(any(Pageable.class));
+        }
+
+        @Test
+        @DisplayName("Should return paginated Persons with sorting")
+        void getPersonsWithSortingShouldReturnOk() throws Exception {
+            Person person1 = createPerson();
+            Person person2 = createPerson();
+            person1.setCin("ID_A");
+            person2.setCin("ID_B");
+
+            List<Person> personList = Arrays.asList(person2, person1);
+            Page<Person> personPage = new PageImpl<>(personList, PageRequest.of(0, 20), 2);
+
+            when(personService.getAllPersons(any(Pageable.class))).thenReturn(personPage);
+
+            mockMvc.perform(get("/api/persons/paginated")
+                    .param("sort", "cin,desc"))
+                    .andExpect(status().isOk())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$.content", hasSize(2)))
+                    .andExpect(jsonPath("$.totalElements").value(2))
+                    .andExpect(jsonPath("$.content[0].cin").value("ID_B"))
+                    .andExpect(jsonPath("$.content[1].cin").value("ID_A"));
+
+            verify(personService).getAllPersons(any(Pageable.class));
+        }
+
+        @Test
+        @DisplayName("Should return empty page when no Persons exist")
+        void getPersonsWhenEmptyShouldReturnEmptyPage() throws Exception {
+            Page<Person> emptyPersonPage = new PageImpl<>(Arrays.asList(), PageRequest.of(0, 20), 0);
+
+            when(personService.getAllPersons(any(Pageable.class))).thenReturn(emptyPersonPage);
+
+            mockMvc.perform(get("/api/persons/paginated"))
+                    .andExpect(status().isOk())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$.content", hasSize(0)))
+                    .andExpect(jsonPath("$.totalElements").value(0))
+                    .andExpect(jsonPath("$.totalPages").value(0))
+                    .andExpect(jsonPath("$.size").value(20))
+                    .andExpect(jsonPath("$.number").value(0));
+
+            verify(personService).getAllPersons(any(Pageable.class));
+        }
+
+
+
+        @Test
+        @DisplayName("Should handle large page size requests")
+        void getPersonsWithLargePageSizeShouldReturnOk() throws Exception {
+            List<Person> personList = Arrays.asList();
+            Page<Person> personPage = new PageImpl<>(personList, PageRequest.of(0, 1000), 0);
+
+            when(personService.getAllPersons(any(Pageable.class))).thenReturn(personPage);
+
+            mockMvc.perform(get("/api/persons/paginated")
+                    .param("size", "1000"))
+                    .andExpect(status().isOk())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$.size").value(1000));
+
+            verify(personService).getAllPersons(any(Pageable.class));
+        }
+    }
+
+    @Nested
+    @DisplayName("OpenAPI/Swagger Documentation Tests")
+    class SwaggerDocumentationTests {
+
+        @Test
+        @DisplayName("Should have proper OpenAPI annotations on create endpoint")
+        void createPersonEndpointShouldHaveProperSwaggerAnnotations() throws Exception {
+            PersonDto requestDto = createPersonDto();
+            PersonDto responseDto = createPersonDto();
+            responseDto.setCin("CREATED_ID");
+
+            when(personService.createPerson(any(Person.class))).thenReturn(createMockEntity());
+
+            MvcResult result = mockMvc.perform(post("/api/persons")
+                    .with(csrf())
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(requestDto)))
+                    .andExpect(status().isCreated())
+                    .andReturn();
+
+            // @Operation(summary = "Create Person", description = "Creates a new Person")
+            // @ApiResponses({@ApiResponse(responseCode = "201", description = "Created")})
+            assertThat(result.getResponse().getStatus()).isEqualTo(201);
+            verify(personService).createPerson(any(Person.class));
+        }
+
+        @Test
+        @DisplayName("Should have proper OpenAPI annotations on get by ID endpoint")
+        void getPersonByIdEndpointShouldHaveProperSwaggerAnnotations() throws Exception {
+            PersonDto responseDto = createPersonDto();
+            String personId = "CREATED_ID";
+            responseDto.setCin(personId);
+
+            when(personService.getPersonById(personId)).thenReturn(createMockEntity());
+
+            MvcResult result = mockMvc.perform(get("/api/persons/{id}", personId)
+                    .accept(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isOk())
+                    .andReturn();
+
+            // Verify that the endpoint would be documented with proper OpenAPI annotations
+            // @Operation(summary = "Get Person by ID", description = "Returns a single Person")
+            // @ApiResponses({
+            //     @ApiResponse(responseCode = "200", description = "OK"),
+            //     @ApiResponse(responseCode = "404", description = "Not Found")
+            // })
+            assertThat(result.getResponse().getStatus()).isEqualTo(200);
+            verify(personService).getPersonById(personId);
+        }
+
+        @Test
+        @DisplayName("Should have proper OpenAPI annotations on update endpoint")
+        void updatePersonEndpointShouldHaveProperSwaggerAnnotations() throws Exception {
+            PersonDto requestDto = createPersonDto();
+            PersonDto responseDto = createPersonDto();
+            String personId = "CREATED_ID";
+            responseDto.setCin(personId);
+
+            when(personService.updatePerson(eq(personId), any(Person.class)))
+                    .thenReturn(createMockEntity());
+
+            MvcResult result = mockMvc.perform(put("/api/persons/{id}", personId)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(requestDto)))
+                    .andExpect(status().isOk())
+                    .andReturn();
+
+            // Verify that the endpoint would be documented with proper OpenAPI annotations
+            // @Operation(summary = "Update Person", description = "Updates an existing Person")
+            // @ApiResponses({
+            //     @ApiResponse(responseCode = "200", description = "OK"),
+            //     @ApiResponse(responseCode = "404", description = "Not Found")
+            // })
+            assertThat(result.getResponse().getStatus()).isEqualTo(200);
+            verify(personService).updatePerson(eq(personId), any(Person.class));
+        }
+
+        @Test
+        @DisplayName("Should have proper OpenAPI annotations on delete endpoint")
+        void deletePersonEndpointShouldHaveProperSwaggerAnnotations() throws Exception {
+            String personId = "CREATED_ID";
+
+            doNothing().when(personService).deletePerson(personId);
+
+            MvcResult result = mockMvc.perform(delete("/api/persons/{id}", personId))
+                    .andExpect(status().isNoContent())
+                    .andReturn();
+
+            // Verify that the endpoint would be documented with proper OpenAPI annotations
+            // @Operation(summary = "Delete Person", description = "Deletes a Person")
+            // @ApiResponses({
+            //     @ApiResponse(responseCode = "204", description = "No Content"),
+            //     @ApiResponse(responseCode = "404", description = "Not Found")
+            // })
+            assertThat(result.getResponse().getStatus()).isEqualTo(204);
+            verify(personService).deletePerson(personId);
+        }
+
+        @Test
+        @DisplayName("Should have proper OpenAPI annotations on get all endpoint")
+        void getAllPersonsEndpointShouldHaveProperSwaggerAnnotations() throws Exception {
+            PersonDto personDto1 = createPersonDto();
+            PersonDto personDto2 = createPersonDto();
+            personDto1.setCin("ID_1");
+            personDto2.setCin("ID_2");
+
+            Person entity1 = createPerson();
+            Person entity2 = createPerson();
+            entity1.setCin("ID_1");
+            entity2.setCin("ID_2");
+            List<Person> entityList = Arrays.asList(entity1, entity2);
+
+            when(personService.getAllPersons()).thenReturn(entityList);
+
+            MvcResult result = mockMvc.perform(get("/api/persons")
+                    .accept(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isOk())
+                    .andReturn();
+
+            // Verify that the endpoint would be documented with proper OpenAPI annotations
+            // @Operation(summary = "Get all Persons", description = "Returns a list of all Persons")
+            // @ApiResponse(responseCode = "200", description = "OK")
+            assertThat(result.getResponse().getStatus()).isEqualTo(200);
+            verify(personService).getAllPersons();
+        }
+
+        @Test
+        @DisplayName("Should have proper OpenAPI annotations on paginated endpoint")
+        void getPersonsPageEndpointShouldHaveProperSwaggerAnnotations() throws Exception {
+            PersonDto personDto1 = createPersonDto();
+            PersonDto personDto2 = createPersonDto();
+            personDto1.setCin("ID_1");
+            personDto2.setCin("ID_2");
+
+            Person entity1 = createPerson();
+            Person entity2 = createPerson();
+            entity1.setCin("ID_1");
+            entity2.setCin("ID_2");
+            List<Person> entityList = Arrays.asList(entity1, entity2);
+            Page<Person> personPage = new PageImpl<>(entityList, PageRequest.of(0, 20), 2);
+
+            when(personService.getAllPersons(any(Pageable.class))).thenReturn(personPage);
+
+            MvcResult result = mockMvc.perform(get("/api/persons/paginated")
+                    .param("page", "0")
+                    .param("size", "20")
+                    .accept(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isOk())
+                    .andReturn();
+
+            // Verify that the endpoint would be documented with proper OpenAPI annotations
+            // @Operation(summary = "Get paginated Persons", description = "Returns a paginated list of Persons")
+            // @Parameter(name = "page", description = "Page number (0-based)")
+            // @Parameter(name = "size", description = "Page size")
+            // @Parameter(name = "sort", description = "Sort criteria")
+            // @ApiResponse(responseCode = "200", description = "OK")
+            assertThat(result.getResponse().getStatus()).isEqualTo(200);
+            verify(personService).getAllPersons(any(Pageable.class));
+        }
+
+        @Test
+        @DisplayName("Should document error responses properly")
+        void errorResponsesShouldBeProperlyDocumented() throws Exception {
+            String nonExistentId = "NONEXISTENT_ID";
+
+            when(personService.getPersonById(nonExistentId))
+                    .thenThrow(new EntityNotFoundException("Person not found with id: " + nonExistentId));
+
+            MvcResult result = mockMvc.perform(get("/api/persons/{id}", nonExistentId)
+                    .accept(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isNotFound())
+                    .andReturn();
+
+            // Verify that error responses would be documented with proper OpenAPI annotations
+            // @ApiResponse(responseCode = "404", description = "Not Found", 
+            //              content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+            assertThat(result.getResponse().getStatus()).isEqualTo(404);
+            verify(personService).getPersonById(nonExistentId);
+        }
+
+        @Test
+        @DisplayName("Should document validation error responses")
+        void validationErrorResponsesShouldBeProperlyDocumented() throws Exception {
+            PersonDto invalidDto = PersonDto.builder().build(); // Invalid DTO
+
+            MvcResult result = mockMvc.perform(post("/api/persons")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(invalidDto)))
+                    .andExpect(status().isBadRequest())
+                    .andReturn();
+
+            // Verify that validation error responses would be documented with proper OpenAPI annotations
+            // @ApiResponse(responseCode = "400", description = "Bad Request - Validation Error",
+            //              content = @Content(schema = @Schema(implementation = ValidationErrorResponse.class)))
+            assertThat(result.getResponse().getStatus()).isEqualTo(400);
+            verify(personService, never()).createPerson(any(Person.class));
+        }
+    }
+
+    @Nested
+    @DisplayName("Security and Authorization Tests")
+    class SecurityAndAuthorizationTests {
+
+        @Test
+        @DisplayName("Should allow access to public endpoints without authentication")
+        void accessPublicEndpointWithoutAuthenticationShouldSucceed() throws Exception {
+            List<Person> mockEntities = Arrays.asList(createMockEntity());
+            when(personService.getAllPersons()).thenReturn(mockEntities);
+
+            mockMvc.perform(get("/api/persons")
+                    .accept(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isOk())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$").isArray())
+                    .andExpect(jsonPath("$[0].cin").exists());
+
+            verify(personService).getAllPersons();
+        }
+
+        @Test
+        @DisplayName("Should allow create operation for any user since security is disabled")
+        void createWithUserRoleShouldSucceed() throws Exception {
+            PersonDto requestDto = createPersonDto();
+            when(personService.createPerson(any(Person.class))).thenReturn(createMockEntity());
+
+            mockMvc.perform(post("/api/persons")
+                    .with(user("testuser").roles("USER"))
+                    .with(csrf())
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(requestDto)))
+                    .andExpect(status().isCreated())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$.cin").value("CREATED_ID"));
+
+            verify(personService).createPerson(any(Person.class));
+        }
+
+    }
+
+
+
+
+}

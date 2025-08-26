@@ -1,0 +1,126 @@
+{
+  "name": "User",
+  "packageName": "com.univade.TU",
+  "tableName": "users",
+  "auditable": false,
+  "attributes": [
+    {
+      "name": "id",
+      "type": "Long",
+      "nullable": false,
+      "unique": false,
+      "primaryKey": true,
+      "generatedValue": true,
+      "generationType": "IDENTITY",
+      "columnName": "id"
+    },
+    {
+      "name": "name",
+      "type": "String",
+      "nullable": false,
+      "unique": false,
+      "maxLength": 100,
+      "minLength": 2,
+      "columnName": "name",
+      "notBlank": true
+    },
+    {
+      "name": "email",
+      "type": "String",
+      "nullable": false,
+      "unique": true,
+      "maxLength": 150,
+      "columnName": "email",
+      "email": true,
+      "notBlank": true
+    },
+    {
+      "name": "age",
+      "type": "Integer",
+      "nullable": true,
+      "unique": false,
+      "minValue": 0,
+      "maxValue": 150,
+      "columnName": "age"
+    }
+  ],
+  "relationships": [
+    {
+      "name": "address",
+      "type": "OneToOne",
+      "targetEntity": "Address",
+      "cascadeType": "[ALL]",
+      "fetchType": "LAZY",
+      "joinColumn": "address_id",
+      "optional": true
+    },
+    {
+      "name": "posts",
+      "type": "OneToMany",
+      "targetEntity": "Post",
+      "mappedBy": "author",
+      "cascadeType": "[ALL]",
+      "fetchType": "LAZY",
+      "orphanRemoval": true
+    }
+  ],
+  "validations": [
+    {
+      "attributeName": "name",
+      "validationType": "NotBlank",
+      "message": "Name cannot be blank"
+    },
+    {
+      "attributeName": "name",
+      "validationType": "Size",
+      "min": 2,
+      "max": 100,
+      "message": "Name must be between 2 and 100 characters"
+    },
+    {
+      "attributeName": "email",
+      "validationType": "Email",
+      "message": "Email must be valid"
+    },
+    {
+      "attributeName": "email",
+      "validationType": "NotBlank",
+      "message": "Email cannot be blank"
+    },
+    {
+      "attributeName": "email",
+      "validationType": "Size",
+      "max": 150,
+      "message": "Email must not exceed 150 characters"
+    },
+    {
+      "attributeName": "age",
+      "validationType": "Min",
+      "value": 0,
+      "message": "Age must be positive"
+    },
+    {
+      "attributeName": "age",
+      "validationType": "Max",
+      "value": 150,
+      "message": "Age must be realistic"
+    }
+  ],
+  "securityRules": [
+  {
+    "path": "/api/users",
+    "methods": {
+      "GET": ["USER", "ADMIN"],
+      "POST": ["ADMIN"]
+    }
+  },
+  {
+    "path": "/api/users/{id}",
+    "methods": {
+      "GET": ["USER", "ADMIN"],
+      "PUT": ["ADMIN"],
+      "DELETE": ["ADMIN"]
+    }
+  }
+]
+}

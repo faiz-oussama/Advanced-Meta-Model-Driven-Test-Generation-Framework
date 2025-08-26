@@ -1,0 +1,81 @@
+{
+  "name": "Post",
+  "packageName": "com.univade.TU",
+  "tableName": "posts",
+  "auditable": false,
+  "attributes": [
+    {
+      "name": "id",
+      "type": "Long",
+      "nullable": false,
+      "unique": false,
+      "primaryKey": true,
+      "generatedValue": true,
+      "generationType": "IDENTITY",
+      "columnName": "id"
+    },
+    {
+      "name": "title",
+      "type": "String",
+      "nullable": false,
+      "unique": false,
+      "maxLength": 255,
+      "minLength": 3,
+      "columnName": "title",
+      "notBlank": true
+    },
+    {
+      "name": "content",
+      "type": "String",
+      "nullable": false,
+      "unique": false,
+      "maxLength": 5000,
+      "minLength": 10,
+      "columnName": "content",
+      "notBlank": true,
+      "lob": true
+    }
+  ],
+  "relationships": [
+    {
+      "name": "author",
+      "type": "ManyToOne",
+      "targetEntity": "User",
+      "cascadeType": "[]",
+      "fetchType": "LAZY",
+      "joinColumn": "author_id",
+      "optional": false
+    }
+  ],
+  "validations": [
+    {
+      "attributeName": "title",
+      "validationType": "NotBlank",
+      "message": "Title cannot be blank"
+    },
+    {
+      "attributeName": "title",
+      "validationType": "Size",
+      "min": 3,
+      "max": 255,
+      "message": "Title must be between 3 and 255 characters"
+    },
+    {
+      "attributeName": "content",
+      "validationType": "NotBlank",
+      "message": "Content cannot be blank"
+    },
+    {
+      "attributeName": "content",
+      "validationType": "Size",
+      "min": 10,
+      "max": 5000,
+      "message": "Content must be between 10 and 5000 characters"
+    },
+    {
+      "attributeName": "author",
+      "validationType": "NotNull",
+      "message": "Author cannot be null"
+    }
+  ]
+}

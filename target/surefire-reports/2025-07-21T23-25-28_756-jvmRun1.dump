@@ -1,0 +1,197 @@
+# Created at 2025-07-21T23:25:41.887
+Exiting self fork JVM. Received SHUTDOWN command from Maven shutdown hook.
+Thread dump before exiting the process (14720@DESKTOP-7FMRF1Q):
+"main" 
+   java.lang.Thread.State: RUNNABLE
+        at app//org.antlr.v4.runtime.atn.ParserATNSimulator.closure_(ParserATNSimulator.java:1527)
+        at app//org.antlr.v4.runtime.atn.ParserATNSimulator.closureCheckingStopState(ParserATNSimulator.java:1499)
+        at app//org.antlr.v4.runtime.atn.ParserATNSimulator.closure_(ParserATNSimulator.java:1572)
+        at app//org.antlr.v4.runtime.atn.ParserATNSimulator.closureCheckingStopState(ParserATNSimulator.java:1499)
+        at app//org.antlr.v4.runtime.atn.ParserATNSimulator.closure_(ParserATNSimulator.java:1572)
+        at app//org.antlr.v4.runtime.atn.ParserATNSimulator.closureCheckingStopState(ParserATNSimulator.java:1499)
+        at app//org.antlr.v4.runtime.atn.ParserATNSimulator.closure_(ParserATNSimulator.java:1572)
+        at app//org.antlr.v4.runtime.atn.ParserATNSimulator.closureCheckingStopState(ParserATNSimulator.java:1499)
+        at app//org.antlr.v4.runtime.atn.ParserATNSimulator.closure_(ParserATNSimulator.java:1572)
+        at app//org.antlr.v4.runtime.atn.ParserATNSimulator.closureCheckingStopState(ParserATNSimulator.java:1499)
+        at app//org.antlr.v4.runtime.atn.ParserATNSimulator.closure_(ParserATNSimulator.java:1572)
+        at app//org.antlr.v4.runtime.atn.ParserATNSimulator.closureCheckingStopState(ParserATNSimulator.java:1499)
+        at app//org.antlr.v4.runtime.atn.ParserATNSimulator.closure_(ParserATNSimulator.java:1572)
+        at app//org.antlr.v4.runtime.atn.ParserATNSimulator.closureCheckingStopState(ParserATNSimulator.java:1499)
+        at app//org.antlr.v4.runtime.atn.ParserATNSimulator.closure_(ParserATNSimulator.java:1572)
+        at app//org.antlr.v4.runtime.atn.ParserATNSimulator.closureCheckingStopState(ParserATNSimulator.java:1499)
+        at app//org.antlr.v4.runtime.atn.ParserATNSimulator.closure_(ParserATNSimulator.java:1572)
+        at app//org.antlr.v4.runtime.atn.ParserATNSimulator.closureCheckingStopState(ParserATNSimulator.java:1499)
+        at app//org.antlr.v4.runtime.atn.ParserATNSimulator.closure_(ParserATNSimulator.java:1572)
+        at app//org.antlr.v4.runtime.atn.ParserATNSimulator.closureCheckingStopState(ParserATNSimulator.java:1499)
+        at app//org.antlr.v4.runtime.atn.ParserATNSimulator.closure_(ParserATNSimulator.java:1572)
+        at app//org.antlr.v4.runtime.atn.ParserATNSimulator.closureCheckingStopState(ParserATNSimulator.java:1499)
+        at app//org.antlr.v4.runtime.atn.ParserATNSimulator.closure_(ParserATNSimulator.java:1572)
+        at app//org.antlr.v4.runtime.atn.ParserATNSimulator.closureCheckingStopState(ParserATNSimulator.java:1499)
+        at app//org.antlr.v4.runtime.atn.ParserATNSimulator.closure_(ParserATNSimulator.java:1572)
+        at app//org.antlr.v4.runtime.atn.ParserATNSimulator.closureCheckingStopState(ParserATNSimulator.java:1499)
+        at app//org.antlr.v4.runtime.atn.ParserATNSimulator.closure_(ParserATNSimulator.java:1572)
+        at app//org.antlr.v4.runtime.atn.ParserATNSimulator.closureCheckingStopState(ParserATNSimulator.java:1499)
+        at app//org.antlr.v4.runtime.atn.ParserATNSimulator.closure_(ParserATNSimulator.java:1572)
+        at app//org.antlr.v4.runtime.atn.ParserATNSimulator.closureCheckingStopState(ParserATNSimulator.java:1499)
+        at app//org.antlr.v4.runtime.atn.ParserATNSimulator.closure_(ParserATNSimulator.java:1572)
+        at app//org.antlr.v4.runtime.atn.ParserATNSimulator.closureCheckingStopState(ParserATNSimulator.java:1499)
+        at app//org.antlr.v4.runtime.atn.ParserATNSimulator.closure_(ParserATNSimulator.java:1572)
+        at app//org.antlr.v4.runtime.atn.ParserATNSimulator.closureCheckingStopState(ParserATNSimulator.java:1499)
+        at app//org.antlr.v4.runtime.atn.ParserATNSimulator.closure_(ParserATNSimulator.java:1572)
+        at app//org.antlr.v4.runtime.atn.ParserATNSimulator.closureCheckingStopState(ParserATNSimulator.java:1499)
+        at app//org.antlr.v4.runtime.atn.ParserATNSimulator.closure_(ParserATNSimulator.java:1572)
+        at app//org.antlr.v4.runtime.atn.ParserATNSimulator.closureCheckingStopState(ParserATNSimulator.java:1499)
+        at app//org.antlr.v4.runtime.atn.ParserATNSimulator.closure_(ParserATNSimulator.java:1572)
+        at app//org.antlr.v4.runtime.atn.ParserATNSimulator.closureCheckingStopState(ParserATNSimulator.java:1499)
+        at app//org.antlr.v4.runtime.atn.ParserATNSimulator.closure_(ParserATNSimulator.java:1572)
+        at app//org.antlr.v4.runtime.atn.ParserATNSimulator.closureCheckingStopState(ParserATNSimulator.java:1499)
+        at app//org.antlr.v4.runtime.atn.ParserATNSimulator.closure_(ParserATNSimulator.java:1572)
+        at app//org.antlr.v4.runtime.atn.ParserATNSimulator.closureCheckingStopState(ParserATNSimulator.java:1499)
+        at app//org.antlr.v4.runtime.atn.ParserATNSimulator.closure_(ParserATNSimulator.java:1572)
+        at app//org.antlr.v4.runtime.atn.ParserATNSimulator.closureCheckingStopState(ParserATNSimulator.java:1499)
+        at app//org.antlr.v4.runtime.atn.ParserATNSimulator.closure_(ParserATNSimulator.java:1572)
+        at app//org.antlr.v4.runtime.atn.ParserATNSimulator.closureCheckingStopState(ParserATNSimulator.java:1499)
+        at app//org.antlr.v4.runtime.atn.ParserATNSimulator.closure_(ParserATNSimulator.java:1572)
+        at app//org.antlr.v4.runtime.atn.ParserATNSimulator.closureCheckingStopState(ParserATNSimulator.java:1499)
+        at app//org.antlr.v4.runtime.atn.ParserATNSimulator.closure_(ParserATNSimulator.java:1572)
+        at app//org.antlr.v4.runtime.atn.ParserATNSimulator.closureCheckingStopState(ParserATNSimulator.java:1499)
+        at app//org.antlr.v4.runtime.atn.ParserATNSimulator.closure_(ParserATNSimulator.java:1572)
+        at app//org.antlr.v4.runtime.atn.ParserATNSimulator.closureCheckingStopState(ParserATNSimulator.java:1499)
+        at app//org.antlr.v4.runtime.atn.ParserATNSimulator.closure_(ParserATNSimulator.java:1572)
+        at app//org.antlr.v4.runtime.atn.ParserATNSimulator.closureCheckingStopState(ParserATNSimulator.java:1499)
+        at app//org.antlr.v4.runtime.atn.ParserATNSimulator.closure_(ParserATNSimulator.java:1572)
+        at app//org.antlr.v4.runtime.atn.ParserATNSimulator.closureCheckingStopState(ParserATNSimulator.java:1499)
+        at app//org.antlr.v4.runtime.atn.ParserATNSimulator.closure_(ParserATNSimulator.java:1572)
+        at app//org.antlr.v4.runtime.atn.ParserATNSimulator.closureCheckingStopState(ParserATNSimulator.java:1499)
+        at app//org.antlr.v4.runtime.atn.ParserATNSimulator.closure_(ParserATNSimulator.java:1572)
+        at app//org.antlr.v4.runtime.atn.ParserATNSimulator.closureCheckingStopState(ParserATNSimulator.java:1499)
+        at app//org.antlr.v4.runtime.atn.ParserATNSimulator.closure_(ParserATNSimulator.java:1572)
+        at app//org.antlr.v4.runtime.atn.ParserATNSimulator.closureCheckingStopState(ParserATNSimulator.java:1499)
+        at app//org.antlr.v4.runtime.atn.ParserATNSimulator.closure(ParserATNSimulator.java:1434)
+        at app//org.antlr.v4.runtime.atn.ParserATNSimulator.computeReachSet(ParserATNSimulator.java:834)
+        at app//org.antlr.v4.runtime.atn.ParserATNSimulator.computeTargetState(ParserATNSimulator.java:554)
+        at app//org.antlr.v4.runtime.atn.ParserATNSimulator.execATN(ParserATNSimulator.java:432)
+        at app//org.antlr.v4.runtime.atn.ParserATNSimulator.adaptivePredict(ParserATNSimulator.java:371)
+        at app//org.springframework.data.jpa.repository.query.HqlParser.simplePath(HqlParser.java:8420)
+        at app//org.springframework.data.jpa.repository.query.HqlParser.generalPathFragment(HqlParser.java:8291)
+        at app//org.springframework.data.jpa.repository.query.HqlParser.primaryExpression(HqlParser.java:8167)
+        at app//org.springframework.data.jpa.repository.query.HqlParser.expression(HqlParser.java:7666)
+        at app//org.springframework.data.jpa.repository.query.HqlParser.expressionOrPredicate(HqlParser.java:15926)
+        at app//org.springframework.data.jpa.repository.query.HqlParser.genericFunctionArguments(HqlParser.java:13519)
+        at app//org.springframework.data.jpa.repository.query.HqlParser.genericFunction(HqlParser.java:13328)
+        at app//org.springframework.data.jpa.repository.query.HqlParser.function(HqlParser.java:10023)
+        at app//org.springframework.data.jpa.repository.query.HqlParser.primaryExpression(HqlParser.java:8159)
+        at app//org.springframework.data.jpa.repository.query.HqlParser.expression(HqlParser.java:7666)
+        at app//org.springframework.data.jpa.repository.query.HqlParser.stringPatternMatching(HqlParser.java:16403)
+        at app//org.springframework.data.jpa.repository.query.HqlParser.predicate(HqlParser.java:15799)
+        at app//org.springframework.data.jpa.repository.query.HqlParser.whereClause(HqlParser.java:3933)
+        at app//org.springframework.data.jpa.repository.query.HqlParser.query(HqlParser.java:1347)
+        at app//org.springframework.data.jpa.repository.query.HqlParser.orderedQuery(HqlParser.java:1171)
+        at app//org.springframework.data.jpa.repository.query.HqlParser.queryExpression(HqlParser.java:540)
+        at app//org.springframework.data.jpa.repository.query.HqlParser.selectStatement(HqlParser.java:472)
+        at app//org.springframework.data.jpa.repository.query.HqlParser.ql_statement(HqlParser.java:402)
+        at app//org.springframework.data.jpa.repository.query.HqlParser.start(HqlParser.java:339)
+        at app//org.springframework.data.jpa.repository.query.JpaQueryEnhancer$HqlQueryParser$$Lambda/0x0000017c9b9c7d70.apply(Unknown Source)
+        at app//org.springframework.data.jpa.repository.query.JpaQueryEnhancer.parse(JpaQueryEnhancer.java:97)
+        at app//org.springframework.data.jpa.repository.query.JpaQueryEnhancer$HqlQueryParser.<init>(JpaQueryEnhancer.java:319)
+        at app//org.springframework.data.jpa.repository.query.JpaQueryEnhancer$HqlQueryParser.parseQuery(JpaQueryEnhancer.java:331)
+        at app//org.springframework.data.jpa.repository.query.JpaQueryEnhancer.forHql(JpaQueryEnhancer.java:167)
+        at app//org.springframework.data.jpa.repository.query.QueryEnhancerFactory.forQuery(QueryEnhancerFactory.java:68)
+        at app//org.springframework.data.jpa.repository.query.StringQuery.<init>(StringQuery.java:100)
+        at app//org.springframework.data.jpa.repository.query.StringQuery.<init>(StringQuery.java:79)
+        at app//org.springframework.data.jpa.repository.query.ExpressionBasedStringQuery.<init>(ExpressionBasedStringQuery.java:65)
+        at app//org.springframework.data.jpa.repository.query.AbstractStringBasedJpaQuery.<init>(AbstractStringBasedJpaQuery.java:87)
+        at app//org.springframework.data.jpa.repository.query.SimpleJpaQuery.<init>(SimpleJpaQuery.java:65)
+        at app//org.springframework.data.jpa.repository.query.JpaQueryFactory.fromMethodWithQueryString(JpaQueryFactory.java:49)
+
+"Reference Handler" 
+   java.lang.Thread.State: RUNNABLE
+        at java.base@23/java.lang.ref.Reference.waitForReferencePendingList(Native Method)
+        at java.base@23/java.lang.ref.Reference.processPendingReferences(Reference.java:246)
+        at java.base@23/java.lang.ref.Reference$ReferenceHandler.run(Reference.java:208)
+
+"Finalizer" 
+   java.lang.Thread.State: WAITING
+        at java.base@23/java.lang.Object.wait0(Native Method)
+        at java.base@23/java.lang.Object.wait(Object.java:378)
+        at java.base@23/java.lang.Object.wait(Object.java:352)
+        at java.base@23/java.lang.ref.NativeReferenceQueue.await(NativeReferenceQueue.java:48)
+        at java.base@23/java.lang.ref.ReferenceQueue.remove0(ReferenceQueue.java:166)
+        at java.base@23/java.lang.ref.NativeReferenceQueue.remove(NativeReferenceQueue.java:89)
+        at java.base@23/java.lang.ref.Finalizer$FinalizerThread.run(Finalizer.java:173)
+
+"Signal Dispatcher" 
+   java.lang.Thread.State: RUNNABLE
+
+"Attach Listener" 
+   java.lang.Thread.State: RUNNABLE
+
+"Notification Thread" 
+   java.lang.Thread.State: RUNNABLE
+
+"Common-Cleaner" 
+   java.lang.Thread.State: TIMED_WAITING
+        at java.base@23/jdk.internal.misc.Unsafe.park(Native Method)
+        at java.base@23/java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:269)
+        at java.base@23/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.await(AbstractQueuedSynchronizer.java:1852)
+        at java.base@23/java.lang.ref.ReferenceQueue.await(ReferenceQueue.java:79)
+        at java.base@23/java.lang.ref.ReferenceQueue.remove0(ReferenceQueue.java:151)
+        at java.base@23/java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:229)
+        at java.base@23/jdk.internal.ref.CleanerImpl.run(CleanerImpl.java:140)
+        at java.base@23/java.lang.Thread.runWith(Thread.java:1588)
+        at java.base@23/java.lang.Thread.run(Thread.java:1575)
+        at java.base@23/jdk.internal.misc.InnocuousThread.run(InnocuousThread.java:186)
+
+"surefire-forkedjvm-stream-flusher" 
+   java.lang.Thread.State: TIMED_WAITING
+        at java.base@23/jdk.internal.misc.Unsafe.park(Native Method)
+        at java.base@23/java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:269)
+        at java.base@23/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:1763)
+        at java.base@23/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1182)
+        at java.base@23/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:899)
+        at java.base@23/java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1070)
+        at java.base@23/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1130)
+        at java.base@23/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+        at java.base@23/java.lang.Thread.runWith(Thread.java:1588)
+        at java.base@23/java.lang.Thread.run(Thread.java:1575)
+
+"surefire-forkedjvm-command-thread" 
+   java.lang.Thread.State: RUNNABLE
+        at java.management@23/sun.management.ThreadImpl.getThreadInfo1(Native Method)
+        at java.management@23/sun.management.ThreadImpl.getThreadInfo(ThreadImpl.java:187)
+        at app//org.apache.maven.surefire.booter.ForkedBooter.generateThreadDump(ForkedBooter.java:579)
+        at app//org.apache.maven.surefire.booter.ForkedBooter.access$600(ForkedBooter.java:79)
+        at app//org.apache.maven.surefire.booter.ForkedBooter$4.update(ForkedBooter.java:315)
+        at app//org.apache.maven.surefire.booter.CommandReader$CommandRunnable.callListeners(CommandReader.java:357)
+        at app//org.apache.maven.surefire.booter.CommandReader$CommandRunnable.exitByConfiguration(CommandReader.java:367)
+        at app//org.apache.maven.surefire.booter.CommandReader$CommandRunnable.run(CommandReader.java:330)
+        at java.base@23/java.lang.Thread.runWith(Thread.java:1588)
+        at java.base@23/java.lang.Thread.run(Thread.java:1575)
+
+"HikariPool-1:housekeeper" 
+   java.lang.Thread.State: TIMED_WAITING
+        at java.base@23/jdk.internal.misc.Unsafe.park(Native Method)
+        at java.base@23/java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:269)
+        at java.base@23/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:1763)
+        at java.base@23/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1182)
+        at java.base@23/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:899)
+        at java.base@23/java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1070)
+        at java.base@23/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1130)
+        at java.base@23/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+        at java.base@23/java.lang.Thread.runWith(Thread.java:1588)
+        at java.base@23/java.lang.Thread.run(Thread.java:1575)
+
+"HikariPool-1:connection-adder" 
+   java.lang.Thread.State: TIMED_WAITING
+        at java.base@23/jdk.internal.misc.Unsafe.park(Native Method)
+        at java.base@23/java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:269)
+        at java.base@23/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:1763)
+        at java.base@23/java.util.concurrent.LinkedBlockingQueue.poll(LinkedBlockingQueue.java:460)
+        at java.base@23/java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1069)
+        at java.base@23/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1130)
+        at java.base@23/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+        at java.base@23/java.lang.Thread.runWith(Thread.java:1588)
+        at java.base@23/java.lang.Thread.run(Thread.java:1575)
+
+
+

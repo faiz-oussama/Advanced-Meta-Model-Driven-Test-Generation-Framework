@@ -1,0 +1,87 @@
+{
+  "name": "Address",
+  "packageName": "com.univade.TU",
+  "tableName": "addresses",
+  "auditable": false,
+  "attributes": [
+    {
+      "name": "id",
+      "type": "Long",
+      "nullable": false,
+      "unique": false,
+      "primaryKey": true,
+      "generatedValue": true,
+      "generationType": "IDENTITY",
+      "columnName": "id"
+    },
+    {
+      "name": "street",
+      "type": "String",
+      "nullable": false,
+      "unique": false,
+      "maxLength": 150,
+      "minLength": 5,
+      "columnName": "street",
+      "notBlank": true
+    },
+    {
+      "name": "city",
+      "type": "String",
+      "nullable": false,
+      "unique": false,
+      "maxLength": 100,
+      "minLength": 2,
+      "columnName": "city",
+      "notBlank": true
+    },
+    {
+      "name": "zipCode",
+      "type": "String",
+      "nullable": false,
+      "unique": false,
+      "maxLength": 10,
+      "minLength": 3,
+      "columnName": "zip_code",
+      "notBlank": true
+    }
+  ],
+  "relationships": [],
+  "validations": [
+    {
+      "attributeName": "street",
+      "validationType": "NotBlank",
+      "message": "Street cannot be blank"
+    },
+    {
+      "attributeName": "street",
+      "validationType": "Size",
+      "min": 5,
+      "max": 150,
+      "message": "Street must be between 5 and 150 characters"
+    },
+    {
+      "attributeName": "city",
+      "validationType": "NotBlank",
+      "message": "City cannot be blank"
+    },
+    {
+      "attributeName": "city",
+      "validationType": "Size",
+      "min": 2,
+      "max": 100,
+      "message": "City must be between 2 and 100 characters"
+    },
+    {
+      "attributeName": "zipCode",
+      "validationType": "NotBlank",
+      "message": "Zip code cannot be blank"
+    },
+    {
+      "attributeName": "zipCode",
+      "validationType": "Size",
+      "min": 3,
+      "max": 10,
+      "message": "Zip code must be between 3 and 10 characters"
+    }
+  ]
+}

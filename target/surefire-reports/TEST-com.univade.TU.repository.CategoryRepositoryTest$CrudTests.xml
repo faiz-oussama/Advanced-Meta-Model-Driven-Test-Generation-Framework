@@ -1,0 +1,1205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" version="3.0.2" name="com.univade.TU.repository.CategoryRepositoryTest$CrudTests" time="10.216" tests="19" errors="0" skipped="0" failures="0">
+  <properties>
+    <property name="java.specification.version" value="23"/>
+    <property name="sun.cpu.isalist" value="amd64"/>
+    <property name="sun.jnu.encoding" value="Cp1252"/>
+    <property name="java.class.path" value="C:\Users\viet\Desktop\TU\TU\target\test-classes;C:\Users\viet\Desktop\TU\TU\target\classes;C:\Users\viet\.m2\repository\org\springframework\boot\spring-boot-starter-data-jpa\3.5.3\spring-boot-starter-data-jpa-3.5.3.jar;C:\Users\viet\.m2\repository\org\springframework\boot\spring-boot-starter\3.5.3\spring-boot-starter-3.5.3.jar;C:\Users\viet\.m2\repository\org\springframework\boot\spring-boot-starter-logging\3.5.3\spring-boot-starter-logging-3.5.3.jar;C:\Users\viet\.m2\repository\ch\qos\logback\logback-classic\1.5.18\logback-classic-1.5.18.jar;C:\Users\viet\.m2\repository\ch\qos\logback\logback-core\1.5.18\logback-core-1.5.18.jar;C:\Users\viet\.m2\repository\org\apache\logging\log4j\log4j-to-slf4j\2.24.3\log4j-to-slf4j-2.24.3.jar;C:\Users\viet\.m2\repository\org\apache\logging\log4j\log4j-api\2.24.3\log4j-api-2.24.3.jar;C:\Users\viet\.m2\repository\org\slf4j\jul-to-slf4j\2.0.17\jul-to-slf4j-2.0.17.jar;C:\Users\viet\.m2\repository\org\yaml\snakeyaml\2.4\snakeyaml-2.4.jar;C:\Users\viet\.m2\repository\org\springframework\boot\spring-boot-starter-jdbc\3.5.3\spring-boot-starter-jdbc-3.5.3.jar;C:\Users\viet\.m2\repository\com\zaxxer\HikariCP\6.3.0\HikariCP-6.3.0.jar;C:\Users\viet\.m2\repository\org\springframework\spring-jdbc\6.2.8\spring-jdbc-6.2.8.jar;C:\Users\viet\.m2\repository\org\hibernate\orm\hibernate-core\6.6.18.Final\hibernate-core-6.6.18.Final.jar;C:\Users\viet\.m2\repository\jakarta\persistence\jakarta.persistence-api\3.1.0\jakarta.persistence-api-3.1.0.jar;C:\Users\viet\.m2\repository\jakarta\transaction\jakarta.transaction-api\2.0.1\jakarta.transaction-api-2.0.1.jar;C:\Users\viet\.m2\repository\org\hibernate\common\hibernate-commons-annotations\7.0.3.Final\hibernate-commons-annotations-7.0.3.Final.jar;C:\Users\viet\.m2\repository\io\smallrye\jandex\3.2.0\jandex-3.2.0.jar;C:\Users\viet\.m2\repository\org\glassfish\jaxb\jaxb-runtime\4.0.5\jaxb-runtime-4.0.5.jar;C:\Users\viet\.m2\repository\org\glassfish\jaxb\jaxb-core\4.0.5\jaxb-core-4.0.5.jar;C:\Users\viet\.m2\repository\org\eclipse\angus\angus-activation\2.0.2\angus-activation-2.0.2.jar;C:\Users\viet\.m2\repository\org\glassfish\jaxb\txw2\4.0.5\txw2-4.0.5.jar;C:\Users\viet\.m2\repository\com\sun\istack\istack-commons-runtime\4.1.2\istack-commons-runtime-4.1.2.jar;C:\Users\viet\.m2\repository\jakarta\inject\jakarta.inject-api\2.0.1\jakarta.inject-api-2.0.1.jar;C:\Users\viet\.m2\repository\org\antlr\antlr4-runtime\4.13.0\antlr4-runtime-4.13.0.jar;C:\Users\viet\.m2\repository\org\springframework\data\spring-data-jpa\3.5.1\spring-data-jpa-3.5.1.jar;C:\Users\viet\.m2\repository\org\springframework\data\spring-data-commons\3.5.1\spring-data-commons-3.5.1.jar;C:\Users\viet\.m2\repository\org\springframework\spring-orm\6.2.8\spring-orm-6.2.8.jar;C:\Users\viet\.m2\repository\org\springframework\spring-context\6.2.8\spring-context-6.2.8.jar;C:\Users\viet\.m2\repository\org\springframework\spring-tx\6.2.8\spring-tx-6.2.8.jar;C:\Users\viet\.m2\repository\org\springframework\spring-beans\6.2.8\spring-beans-6.2.8.jar;C:\Users\viet\.m2\repository\org\slf4j\slf4j-api\2.0.17\slf4j-api-2.0.17.jar;C:\Users\viet\.m2\repository\org\springframework\spring-aspects\6.2.8\spring-aspects-6.2.8.jar;C:\Users\viet\.m2\repository\org\aspectj\aspectjweaver\1.9.24\aspectjweaver-1.9.24.jar;C:\Users\viet\.m2\repository\org\springframework\boot\spring-boot-starter-data-rest\3.5.3\spring-boot-starter-data-rest-3.5.3.jar;C:\Users\viet\.m2\repository\org\springframework\data\spring-data-rest-webmvc\4.5.1\spring-data-rest-webmvc-4.5.1.jar;C:\Users\viet\.m2\repository\org\springframework\data\spring-data-rest-core\4.5.1\spring-data-rest-core-4.5.1.jar;C:\Users\viet\.m2\repository\org\springframework\hateoas\spring-hateoas\2.5.1\spring-hateoas-2.5.1.jar;C:\Users\viet\.m2\repository\org\springframework\plugin\spring-plugin-core\3.0.0\spring-plugin-core-3.0.0.jar;C:\Users\viet\.m2\repository\org\atteo\evo-inflector\1.3\evo-inflector-1.3.jar;C:\Users\viet\.m2\repository\com\fasterxml\jackson\core\jackson-databind\2.19.1\jackson-databind-2.19.1.jar;C:\Users\viet\.m2\repository\com\fasterxml\jackson\core\jackson-core\2.19.1\jackson-core-2.19.1.jar;C:\Users\viet\.m2\repository\com\fasterxml\jackson\core\jackson-annotations\2.19.1\jackson-annotations-2.19.1.jar;C:\Users\viet\.m2\repository\org\springframework\boot\spring-boot-starter-freemarker\3.5.3\spring-boot-starter-freemarker-3.5.3.jar;C:\Users\viet\.m2\repository\org\freemarker\freemarker\2.3.34\freemarker-2.3.34.jar;C:\Users\viet\.m2\repository\org\springframework\spring-context-support\6.2.8\spring-context-support-6.2.8.jar;C:\Users\viet\.m2\repository\org\springframework\boot\spring-boot-starter-mustache\3.5.3\spring-boot-starter-mustache-3.5.3.jar;C:\Users\viet\.m2\repository\com\samskivert\jmustache\1.16\jmustache-1.16.jar;C:\Users\viet\.m2\repository\org\springframework\boot\spring-boot-starter-web\3.5.3\spring-boot-starter-web-3.5.3.jar;C:\Users\viet\.m2\repository\org\springframework\boot\spring-boot-starter-json\3.5.3\spring-boot-starter-json-3.5.3.jar;C:\Users\viet\.m2\repository\com\fasterxml\jackson\datatype\jackson-datatype-jdk8\2.19.1\jackson-datatype-jdk8-2.19.1.jar;C:\Users\viet\.m2\repository\com\fasterxml\jackson\datatype\jackson-datatype-jsr310\2.19.1\jackson-datatype-jsr310-2.19.1.jar;C:\Users\viet\.m2\repository\com\fasterxml\jackson\module\jackson-module-parameter-names\2.19.1\jackson-module-parameter-names-2.19.1.jar;C:\Users\viet\.m2\repository\org\springframework\spring-web\6.2.8\spring-web-6.2.8.jar;C:\Users\viet\.m2\repository\io\micrometer\micrometer-observation\1.15.1\micrometer-observation-1.15.1.jar;C:\Users\viet\.m2\repository\io\micrometer\micrometer-commons\1.15.1\micrometer-commons-1.15.1.jar;C:\Users\viet\.m2\repository\org\springframework\spring-webmvc\6.2.8\spring-webmvc-6.2.8.jar;C:\Users\viet\.m2\repository\org\springframework\spring-expression\6.2.8\spring-expression-6.2.8.jar;C:\Users\viet\.m2\repository\org\springframework\boot\spring-boot-devtools\3.5.3\spring-boot-devtools-3.5.3.jar;C:\Users\viet\.m2\repository\org\springframework\boot\spring-boot\3.5.3\spring-boot-3.5.3.jar;C:\Users\viet\.m2\repository\org\springframework\boot\spring-boot-autoconfigure\3.5.3\spring-boot-autoconfigure-3.5.3.jar;C:\Users\viet\.m2\repository\com\h2database\h2\2.3.232\h2-2.3.232.jar;C:\Users\viet\.m2\repository\org\projectlombok\lombok\1.18.38\lombok-1.18.38.jar;C:\Users\viet\.m2\repository\org\springframework\boot\spring-boot-starter-tomcat\3.5.3\spring-boot-starter-tomcat-3.5.3.jar;C:\Users\viet\.m2\repository\jakarta\annotation\jakarta.annotation-api\2.1.1\jakarta.annotation-api-2.1.1.jar;C:\Users\viet\.m2\repository\org\apache\tomcat\embed\tomcat-embed-core\10.1.42\tomcat-embed-core-10.1.42.jar;C:\Users\viet\.m2\repository\org\apache\tomcat\embed\tomcat-embed-el\10.1.42\tomcat-embed-el-10.1.42.jar;C:\Users\viet\.m2\repository\org\apache\tomcat\embed\tomcat-embed-websocket\10.1.42\tomcat-embed-websocket-10.1.42.jar;C:\Users\viet\.m2\repository\org\mockito\mockito-core\5.17.0\mockito-core-5.17.0.jar;C:\Users\viet\.m2\repository\net\bytebuddy\byte-buddy\1.17.6\byte-buddy-1.17.6.jar;C:\Users\viet\.m2\repository\net\bytebuddy\byte-buddy-agent\1.17.6\byte-buddy-agent-1.17.6.jar;C:\Users\viet\.m2\repository\org\objenesis\objenesis\3.3\objenesis-3.3.jar;C:\Users\viet\.m2\repository\org\springframework\boot\spring-boot-starter-test\3.5.3\spring-boot-starter-test-3.5.3.jar;C:\Users\viet\.m2\repository\org\springframework\boot\spring-boot-test\3.5.3\spring-boot-test-3.5.3.jar;C:\Users\viet\.m2\repository\com\jayway\jsonpath\json-path\2.9.0\json-path-2.9.0.jar;C:\Users\viet\.m2\repository\jakarta\xml\bind\jakarta.xml.bind-api\4.0.2\jakarta.xml.bind-api-4.0.2.jar;C:\Users\viet\.m2\repository\jakarta\activation\jakarta.activation-api\2.1.3\jakarta.activation-api-2.1.3.jar;C:\Users\viet\.m2\repository\net\minidev\json-smart\2.5.2\json-smart-2.5.2.jar;C:\Users\viet\.m2\repository\net\minidev\accessors-smart\2.5.2\accessors-smart-2.5.2.jar;C:\Users\viet\.m2\repository\org\ow2\asm\asm\9.7.1\asm-9.7.1.jar;C:\Users\viet\.m2\repository\org\assertj\assertj-core\3.27.3\assertj-core-3.27.3.jar;C:\Users\viet\.m2\repository\org\awaitility\awaitility\4.2.2\awaitility-4.2.2.jar;C:\Users\viet\.m2\repository\org\hamcrest\hamcrest\3.0\hamcrest-3.0.jar;C:\Users\viet\.m2\repository\org\junit\jupiter\junit-jupiter\5.12.2\junit-jupiter-5.12.2.jar;C:\Users\viet\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.12.2\junit-jupiter-api-5.12.2.jar;C:\Users\viet\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\viet\.m2\repository\org\junit\platform\junit-platform-commons\1.12.2\junit-platform-commons-1.12.2.jar;C:\Users\viet\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\viet\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.12.2\junit-jupiter-params-5.12.2.jar;C:\Users\viet\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.12.2\junit-jupiter-engine-5.12.2.jar;C:\Users\viet\.m2\repository\org\junit\platform\junit-platform-engine\1.12.2\junit-platform-engine-1.12.2.jar;C:\Users\viet\.m2\repository\org\mockito\mockito-junit-jupiter\5.17.0\mockito-junit-jupiter-5.17.0.jar;C:\Users\viet\.m2\repository\org\skyscreamer\jsonassert\1.5.3\jsonassert-1.5.3.jar;C:\Users\viet\.m2\repository\com\vaadin\external\google\android-json\0.0.20131108.vaadin1\android-json-0.0.20131108.vaadin1.jar;C:\Users\viet\.m2\repository\org\springframework\spring-core\6.2.8\spring-core-6.2.8.jar;C:\Users\viet\.m2\repository\org\springframework\spring-jcl\6.2.8\spring-jcl-6.2.8.jar;C:\Users\viet\.m2\repository\org\springframework\spring-test\6.2.8\spring-test-6.2.8.jar;C:\Users\viet\.m2\repository\org\xmlunit\xmlunit-core\2.10.2\xmlunit-core-2.10.2.jar;C:\Users\viet\.m2\repository\org\springframework\boot\spring-boot-test-autoconfigure\3.5.3\spring-boot-test-autoconfigure-3.5.3.jar;C:\Users\viet\.m2\repository\org\springframework\boot\spring-boot-starter-validation\3.5.3\spring-boot-starter-validation-3.5.3.jar;C:\Users\viet\.m2\repository\org\springframework\boot\spring-boot-starter-security\3.5.3\spring-boot-starter-security-3.5.3.jar;C:\Users\viet\.m2\repository\org\springframework\spring-aop\6.2.8\spring-aop-6.2.8.jar;C:\Users\viet\.m2\repository\org\springframework\security\spring-security-config\6.5.1\spring-security-config-6.5.1.jar;C:\Users\viet\.m2\repository\org\springframework\security\spring-security-web\6.5.1\spring-security-web-6.5.1.jar;C:\Users\viet\.m2\repository\org\springframework\security\spring-security-test\6.5.1\spring-security-test-6.5.1.jar;C:\Users\viet\.m2\repository\org\springframework\security\spring-security-core\6.5.1\spring-security-core-6.5.1.jar;C:\Users\viet\.m2\repository\org\springframework\security\spring-security-crypto\6.5.1\spring-security-crypto-6.5.1.jar;C:\Users\viet\.m2\repository\jakarta\validation\jakarta.validation-api\3.0.2\jakarta.validation-api-3.0.2.jar;C:\Users\viet\.m2\repository\org\hibernate\validator\hibernate-validator\8.0.2.Final\hibernate-validator-8.0.2.Final.jar;C:\Users\viet\.m2\repository\org\jboss\logging\jboss-logging\3.6.1.Final\jboss-logging-3.6.1.Final.jar;C:\Users\viet\.m2\repository\com\fasterxml\classmate\1.7.0\classmate-1.7.0.jar;"/>
+    <property name="java.vm.vendor" value="Oracle Corporation"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="user.variant" value=""/>
+    <property name="java.vendor.url" value="https://java.oracle.com/"/>
+    <property name="user.timezone" value="Africa/Casablanca"/>
+    <property name="org.jboss.logging.provider" value="slf4j"/>
+    <property name="user.country.format" value="FR"/>
+    <property name="os.name" value="Windows 11"/>
+    <property name="java.vm.specification.version" value="23"/>
+    <property name="APPLICATION_NAME" value="TU"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="user.country" value="US"/>
+    <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-23\bin"/>
+    <property name="sun.java.command" value="C:\Users\viet\AppData\Local\Temp\surefire7833707642326698179\surefirebooter-20250801105500533_119.jar C:\Users\viet\AppData\Local\Temp\surefire7833707642326698179 2025-08-01T10-54-58_079-jvmRun1 surefire-20250801105500533_117tmp surefire_6-20250801105500533_118tmp"/>
+    <property name="jdk.debug" value="release"/>
+    <property name="surefire.test.class.path" value="C:\Users\viet\Desktop\TU\TU\target\test-classes;C:\Users\viet\Desktop\TU\TU\target\classes;C:\Users\viet\.m2\repository\org\springframework\boot\spring-boot-starter-data-jpa\3.5.3\spring-boot-starter-data-jpa-3.5.3.jar;C:\Users\viet\.m2\repository\org\springframework\boot\spring-boot-starter\3.5.3\spring-boot-starter-3.5.3.jar;C:\Users\viet\.m2\repository\org\springframework\boot\spring-boot-starter-logging\3.5.3\spring-boot-starter-logging-3.5.3.jar;C:\Users\viet\.m2\repository\ch\qos\logback\logback-classic\1.5.18\logback-classic-1.5.18.jar;C:\Users\viet\.m2\repository\ch\qos\logback\logback-core\1.5.18\logback-core-1.5.18.jar;C:\Users\viet\.m2\repository\org\apache\logging\log4j\log4j-to-slf4j\2.24.3\log4j-to-slf4j-2.24.3.jar;C:\Users\viet\.m2\repository\org\apache\logging\log4j\log4j-api\2.24.3\log4j-api-2.24.3.jar;C:\Users\viet\.m2\repository\org\slf4j\jul-to-slf4j\2.0.17\jul-to-slf4j-2.0.17.jar;C:\Users\viet\.m2\repository\org\yaml\snakeyaml\2.4\snakeyaml-2.4.jar;C:\Users\viet\.m2\repository\org\springframework\boot\spring-boot-starter-jdbc\3.5.3\spring-boot-starter-jdbc-3.5.3.jar;C:\Users\viet\.m2\repository\com\zaxxer\HikariCP\6.3.0\HikariCP-6.3.0.jar;C:\Users\viet\.m2\repository\org\springframework\spring-jdbc\6.2.8\spring-jdbc-6.2.8.jar;C:\Users\viet\.m2\repository\org\hibernate\orm\hibernate-core\6.6.18.Final\hibernate-core-6.6.18.Final.jar;C:\Users\viet\.m2\repository\jakarta\persistence\jakarta.persistence-api\3.1.0\jakarta.persistence-api-3.1.0.jar;C:\Users\viet\.m2\repository\jakarta\transaction\jakarta.transaction-api\2.0.1\jakarta.transaction-api-2.0.1.jar;C:\Users\viet\.m2\repository\org\hibernate\common\hibernate-commons-annotations\7.0.3.Final\hibernate-commons-annotations-7.0.3.Final.jar;C:\Users\viet\.m2\repository\io\smallrye\jandex\3.2.0\jandex-3.2.0.jar;C:\Users\viet\.m2\repository\org\glassfish\jaxb\jaxb-runtime\4.0.5\jaxb-runtime-4.0.5.jar;C:\Users\viet\.m2\repository\org\glassfish\jaxb\jaxb-core\4.0.5\jaxb-core-4.0.5.jar;C:\Users\viet\.m2\repository\org\eclipse\angus\angus-activation\2.0.2\angus-activation-2.0.2.jar;C:\Users\viet\.m2\repository\org\glassfish\jaxb\txw2\4.0.5\txw2-4.0.5.jar;C:\Users\viet\.m2\repository\com\sun\istack\istack-commons-runtime\4.1.2\istack-commons-runtime-4.1.2.jar;C:\Users\viet\.m2\repository\jakarta\inject\jakarta.inject-api\2.0.1\jakarta.inject-api-2.0.1.jar;C:\Users\viet\.m2\repository\org\antlr\antlr4-runtime\4.13.0\antlr4-runtime-4.13.0.jar;C:\Users\viet\.m2\repository\org\springframework\data\spring-data-jpa\3.5.1\spring-data-jpa-3.5.1.jar;C:\Users\viet\.m2\repository\org\springframework\data\spring-data-commons\3.5.1\spring-data-commons-3.5.1.jar;C:\Users\viet\.m2\repository\org\springframework\spring-orm\6.2.8\spring-orm-6.2.8.jar;C:\Users\viet\.m2\repository\org\springframework\spring-context\6.2.8\spring-context-6.2.8.jar;C:\Users\viet\.m2\repository\org\springframework\spring-tx\6.2.8\spring-tx-6.2.8.jar;C:\Users\viet\.m2\repository\org\springframework\spring-beans\6.2.8\spring-beans-6.2.8.jar;C:\Users\viet\.m2\repository\org\slf4j\slf4j-api\2.0.17\slf4j-api-2.0.17.jar;C:\Users\viet\.m2\repository\org\springframework\spring-aspects\6.2.8\spring-aspects-6.2.8.jar;C:\Users\viet\.m2\repository\org\aspectj\aspectjweaver\1.9.24\aspectjweaver-1.9.24.jar;C:\Users\viet\.m2\repository\org\springframework\boot\spring-boot-starter-data-rest\3.5.3\spring-boot-starter-data-rest-3.5.3.jar;C:\Users\viet\.m2\repository\org\springframework\data\spring-data-rest-webmvc\4.5.1\spring-data-rest-webmvc-4.5.1.jar;C:\Users\viet\.m2\repository\org\springframework\data\spring-data-rest-core\4.5.1\spring-data-rest-core-4.5.1.jar;C:\Users\viet\.m2\repository\org\springframework\hateoas\spring-hateoas\2.5.1\spring-hateoas-2.5.1.jar;C:\Users\viet\.m2\repository\org\springframework\plugin\spring-plugin-core\3.0.0\spring-plugin-core-3.0.0.jar;C:\Users\viet\.m2\repository\org\atteo\evo-inflector\1.3\evo-inflector-1.3.jar;C:\Users\viet\.m2\repository\com\fasterxml\jackson\core\jackson-databind\2.19.1\jackson-databind-2.19.1.jar;C:\Users\viet\.m2\repository\com\fasterxml\jackson\core\jackson-core\2.19.1\jackson-core-2.19.1.jar;C:\Users\viet\.m2\repository\com\fasterxml\jackson\core\jackson-annotations\2.19.1\jackson-annotations-2.19.1.jar;C:\Users\viet\.m2\repository\org\springframework\boot\spring-boot-starter-freemarker\3.5.3\spring-boot-starter-freemarker-3.5.3.jar;C:\Users\viet\.m2\repository\org\freemarker\freemarker\2.3.34\freemarker-2.3.34.jar;C:\Users\viet\.m2\repository\org\springframework\spring-context-support\6.2.8\spring-context-support-6.2.8.jar;C:\Users\viet\.m2\repository\org\springframework\boot\spring-boot-starter-mustache\3.5.3\spring-boot-starter-mustache-3.5.3.jar;C:\Users\viet\.m2\repository\com\samskivert\jmustache\1.16\jmustache-1.16.jar;C:\Users\viet\.m2\repository\org\springframework\boot\spring-boot-starter-web\3.5.3\spring-boot-starter-web-3.5.3.jar;C:\Users\viet\.m2\repository\org\springframework\boot\spring-boot-starter-json\3.5.3\spring-boot-starter-json-3.5.3.jar;C:\Users\viet\.m2\repository\com\fasterxml\jackson\datatype\jackson-datatype-jdk8\2.19.1\jackson-datatype-jdk8-2.19.1.jar;C:\Users\viet\.m2\repository\com\fasterxml\jackson\datatype\jackson-datatype-jsr310\2.19.1\jackson-datatype-jsr310-2.19.1.jar;C:\Users\viet\.m2\repository\com\fasterxml\jackson\module\jackson-module-parameter-names\2.19.1\jackson-module-parameter-names-2.19.1.jar;C:\Users\viet\.m2\repository\org\springframework\spring-web\6.2.8\spring-web-6.2.8.jar;C:\Users\viet\.m2\repository\io\micrometer\micrometer-observation\1.15.1\micrometer-observation-1.15.1.jar;C:\Users\viet\.m2\repository\io\micrometer\micrometer-commons\1.15.1\micrometer-commons-1.15.1.jar;C:\Users\viet\.m2\repository\org\springframework\spring-webmvc\6.2.8\spring-webmvc-6.2.8.jar;C:\Users\viet\.m2\repository\org\springframework\spring-expression\6.2.8\spring-expression-6.2.8.jar;C:\Users\viet\.m2\repository\org\springframework\boot\spring-boot-devtools\3.5.3\spring-boot-devtools-3.5.3.jar;C:\Users\viet\.m2\repository\org\springframework\boot\spring-boot\3.5.3\spring-boot-3.5.3.jar;C:\Users\viet\.m2\repository\org\springframework\boot\spring-boot-autoconfigure\3.5.3\spring-boot-autoconfigure-3.5.3.jar;C:\Users\viet\.m2\repository\com\h2database\h2\2.3.232\h2-2.3.232.jar;C:\Users\viet\.m2\repository\org\projectlombok\lombok\1.18.38\lombok-1.18.38.jar;C:\Users\viet\.m2\repository\org\springframework\boot\spring-boot-starter-tomcat\3.5.3\spring-boot-starter-tomcat-3.5.3.jar;C:\Users\viet\.m2\repository\jakarta\annotation\jakarta.annotation-api\2.1.1\jakarta.annotation-api-2.1.1.jar;C:\Users\viet\.m2\repository\org\apache\tomcat\embed\tomcat-embed-core\10.1.42\tomcat-embed-core-10.1.42.jar;C:\Users\viet\.m2\repository\org\apache\tomcat\embed\tomcat-embed-el\10.1.42\tomcat-embed-el-10.1.42.jar;C:\Users\viet\.m2\repository\org\apache\tomcat\embed\tomcat-embed-websocket\10.1.42\tomcat-embed-websocket-10.1.42.jar;C:\Users\viet\.m2\repository\org\mockito\mockito-core\5.17.0\mockito-core-5.17.0.jar;C:\Users\viet\.m2\repository\net\bytebuddy\byte-buddy\1.17.6\byte-buddy-1.17.6.jar;C:\Users\viet\.m2\repository\net\bytebuddy\byte-buddy-agent\1.17.6\byte-buddy-agent-1.17.6.jar;C:\Users\viet\.m2\repository\org\objenesis\objenesis\3.3\objenesis-3.3.jar;C:\Users\viet\.m2\repository\org\springframework\boot\spring-boot-starter-test\3.5.3\spring-boot-starter-test-3.5.3.jar;C:\Users\viet\.m2\repository\org\springframework\boot\spring-boot-test\3.5.3\spring-boot-test-3.5.3.jar;C:\Users\viet\.m2\repository\com\jayway\jsonpath\json-path\2.9.0\json-path-2.9.0.jar;C:\Users\viet\.m2\repository\jakarta\xml\bind\jakarta.xml.bind-api\4.0.2\jakarta.xml.bind-api-4.0.2.jar;C:\Users\viet\.m2\repository\jakarta\activation\jakarta.activation-api\2.1.3\jakarta.activation-api-2.1.3.jar;C:\Users\viet\.m2\repository\net\minidev\json-smart\2.5.2\json-smart-2.5.2.jar;C:\Users\viet\.m2\repository\net\minidev\accessors-smart\2.5.2\accessors-smart-2.5.2.jar;C:\Users\viet\.m2\repository\org\ow2\asm\asm\9.7.1\asm-9.7.1.jar;C:\Users\viet\.m2\repository\org\assertj\assertj-core\3.27.3\assertj-core-3.27.3.jar;C:\Users\viet\.m2\repository\org\awaitility\awaitility\4.2.2\awaitility-4.2.2.jar;C:\Users\viet\.m2\repository\org\hamcrest\hamcrest\3.0\hamcrest-3.0.jar;C:\Users\viet\.m2\repository\org\junit\jupiter\junit-jupiter\5.12.2\junit-jupiter-5.12.2.jar;C:\Users\viet\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.12.2\junit-jupiter-api-5.12.2.jar;C:\Users\viet\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\viet\.m2\repository\org\junit\platform\junit-platform-commons\1.12.2\junit-platform-commons-1.12.2.jar;C:\Users\viet\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\viet\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.12.2\junit-jupiter-params-5.12.2.jar;C:\Users\viet\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.12.2\junit-jupiter-engine-5.12.2.jar;C:\Users\viet\.m2\repository\org\junit\platform\junit-platform-engine\1.12.2\junit-platform-engine-1.12.2.jar;C:\Users\viet\.m2\repository\org\mockito\mockito-junit-jupiter\5.17.0\mockito-junit-jupiter-5.17.0.jar;C:\Users\viet\.m2\repository\org\skyscreamer\jsonassert\1.5.3\jsonassert-1.5.3.jar;C:\Users\viet\.m2\repository\com\vaadin\external\google\android-json\0.0.20131108.vaadin1\android-json-0.0.20131108.vaadin1.jar;C:\Users\viet\.m2\repository\org\springframework\spring-core\6.2.8\spring-core-6.2.8.jar;C:\Users\viet\.m2\repository\org\springframework\spring-jcl\6.2.8\spring-jcl-6.2.8.jar;C:\Users\viet\.m2\repository\org\springframework\spring-test\6.2.8\spring-test-6.2.8.jar;C:\Users\viet\.m2\repository\org\xmlunit\xmlunit-core\2.10.2\xmlunit-core-2.10.2.jar;C:\Users\viet\.m2\repository\org\springframework\boot\spring-boot-test-autoconfigure\3.5.3\spring-boot-test-autoconfigure-3.5.3.jar;C:\Users\viet\.m2\repository\org\springframework\boot\spring-boot-starter-validation\3.5.3\spring-boot-starter-validation-3.5.3.jar;C:\Users\viet\.m2\repository\org\springframework\boot\spring-boot-starter-security\3.5.3\spring-boot-starter-security-3.5.3.jar;C:\Users\viet\.m2\repository\org\springframework\spring-aop\6.2.8\spring-aop-6.2.8.jar;C:\Users\viet\.m2\repository\org\springframework\security\spring-security-config\6.5.1\spring-security-config-6.5.1.jar;C:\Users\viet\.m2\repository\org\springframework\security\spring-security-web\6.5.1\spring-security-web-6.5.1.jar;C:\Users\viet\.m2\repository\org\springframework\security\spring-security-test\6.5.1\spring-security-test-6.5.1.jar;C:\Users\viet\.m2\repository\org\springframework\security\spring-security-core\6.5.1\spring-security-core-6.5.1.jar;C:\Users\viet\.m2\repository\org\springframework\security\spring-security-crypto\6.5.1\spring-security-crypto-6.5.1.jar;C:\Users\viet\.m2\repository\jakarta\validation\jakarta.validation-api\3.0.2\jakarta.validation-api-3.0.2.jar;C:\Users\viet\.m2\repository\org\hibernate\validator\hibernate-validator\8.0.2.Final\hibernate-validator-8.0.2.Final.jar;C:\Users\viet\.m2\repository\org\jboss\logging\jboss-logging\3.6.1.Final\jboss-logging-3.6.1.Final.jar;C:\Users\viet\.m2\repository\com\fasterxml\classmate\1.7.0\classmate-1.7.0.jar;"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="user.home" value="C:\Users\viet"/>
+    <property name="user.language" value="en"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.version.date" value="2024-09-17"/>
+    <property name="java.home" value="C:\Program Files\Java\jdk-23"/>
+    <property name="file.separator" value="\"/>
+    <property name="basedir" value="C:\Users\viet\Desktop\TU\TU"/>
+    <property name="java.vm.compressedOopsMode" value="32-bit"/>
+    <property name="line.separator" value="&#10;"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="FILE_LOG_CHARSET" value="UTF-8"/>
+    <property name="java.awt.headless" value="true"/>
+    <property name="surefire.real.class.path" value="C:\Users\viet\AppData\Local\Temp\surefire7833707642326698179\surefirebooter-20250801105500533_119.jar"/>
+    <property name="user.script" value=""/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="java.runtime.version" value="23+37-2369"/>
+    <property name="user.name" value="viet"/>
+    <property name="stdout.encoding" value="Cp1252"/>
+    <property name="path.separator" value=";"/>
+    <property name="os.version" value="10.0"/>
+    <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="java.vm.name" value="Java HotSpot(TM) 64-Bit Server VM"/>
+    <property name="localRepository" value="C:\Users\viet\.m2\repository"/>
+    <property name="java.vendor.url.bug" value="https://bugreport.java.com/bugreport/"/>
+    <property name="java.io.tmpdir" value="C:\Users\viet\AppData\Local\Temp\"/>
+    <property name="idea.version" value="2025.1"/>
+    <property name="java.version" value="23"/>
+    <property name="user.dir" value="C:\Users\viet\Desktop\TU\TU"/>
+    <property name="os.arch" value="amd64"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="PID" value="21956"/>
+    <property name="user.language.format" value="fr"/>
+    <property name="sun.os.patch.level" value=""/>
+    <property name="CONSOLE_LOG_CHARSET" value="windows-1252"/>
+    <property name="native.encoding" value="Cp1252"/>
+    <property name="java.library.path" value="C:\Program Files\Java\jdk-23\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\Program Files (x86)\Common Files\Intel\Shared Libraries\redist\intel64\compiler;C:\Python313\Scripts\;C:\Python313\;C:\oraclexe\app\oracle\product\11.2.0\server\bin;C:\Users\viet\Downloads\WINDOWS.X64_193000_db_home\bin;c:\Users\viet\AppData\Local\Programs\cursor\resources\app\bin;C:\Program Files\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\MinGW\bin;C:\Program Files\Git\cmd;C:\composer;C:\xampp\php;C:\ProgramData\chocolatey\bin;C:\Program Files (x86)\GnuWin32\bin;C:\Users\viet\.cargo\bin;C:\Users\viet\AppData\Local\Microsoft\WindowsApps;C:\Users\viet\AppData\Roaming\Composer\vendor\bin;C:\Users\viet\AppData\Roaming\npm;C:\Users\viet\.bun\bin;C:\sqlite3;C:\Program Files\JetBrains\IntelliJ IDEA 2024.1\bin;C:\Program Files\Java\jdk-23\bin;C:\Program Files\apache-maven-3.9.9\bin;C:\Users\viet\Desktop\logstash-8.15.2\bin;C:\Users\viet\Desktop\elasticsearch-8.15.3\bin;C:\Users\viet\Desktop\kibana-8.15.2\bin;C:\Program Files\Java\jdk-17\bin;C:\Users\viet\Downloads\apache-tomcat-9.0.97-windows-x64\apache-tomcat-9.0.97\bin;C:\kafka\bin\windows;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\nodejs\;C:\Users\viet\AppData\Roaming\Python\Python313\Scripts;C:\Users\viet\AppData\Local\pnpm;C:\oraclexe\app\oracle\product\11.2.0\server\bin;C:\Users\viet\Downloads\WINDOWS.X64_193000_db_home\bin;c:\Users\viet\AppData\Local\Programs\cursor\resources\app\bin;C:\Program Files\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\MinGW\bin;C:\Program Files\Git\cmd;C:\composer;C:\xampp\php;C:\ProgramData\chocolatey\bin;C:\Program Files (x86)\GnuWin32\bin;C:\Users\viet\.cargo\bin;C:\Users\viet\AppData\Local\Microsoft\WindowsApps;C:\Users\viet\AppData\Roaming\Composer\vendor\bin;C:\Users\viet\.bun\bin;C:\sqlite3;C:\Program Files\JetBrains\IntelliJ IDEA 2024.1\bin;C:\Program Files\Java\jdk-23\bin;C:\Program Files\apache-maven-3.9.9\bin;C:\Users\viet\Desktop\logstash-8.15.2\bin;C:\Users\viet\Desktop\elasticsearch-8.15.3\bin;C:\Users\viet\Desktop\kibana-8;c:\kafka\bin\windows;C:\Users\viet\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\viet\AppData\Local\Microsoft\WindowsApps;C:\Users\viet\AppData\Local\Programs\cursor\resources\app\bin;C:\Users\viet\AppData\Roaming\npm;C:\Program Files\JetBrains\IntelliJ IDEA 2025.1\bin;C:\Users\viet\.dotnet\tools;C:\Program Files\nodejs\;C:\Users\viet\AppData\Local\JetBrains\Toolbox\scripts;C:\Users\viet\AppData\Local\Programs\Windsurf\bin;C:\Users\viet\AppData\Local\Programs\Ollama;."/>
+    <property name="java.vm.info" value="mixed mode, sharing"/>
+    <property name="stderr.encoding" value="Cp1252"/>
+    <property name="java.vendor" value="Oracle Corporation"/>
+    <property name="java.vm.version" value="23+37-2369"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
+    <property name="java.class.version" value="67.0"/>
+    <property name="LOGGED_APPLICATION_NAME" value="[TU] "/>
+  </properties>
+  <testcase name="deleteMultipleCategorysByIdShouldRemoveSpecifiedEntities" classname="com.univade.TU.repository.CategoryRepositoryTest$CrudTests" time="0.932">
+    <system-out><![CDATA[10:56:31.854 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.univade.TU.repository.CategoryRepositoryTest]: CategoryRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+10:56:32.147 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.univade.TU.TuApplication for test class com.univade.TU.repository.CategoryRepositoryTest
+10:56:32.198 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.univade.TU.repository.CategoryRepositoryTest$CrudTests]: CrudTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+10:56:32.221 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.univade.TU.TuApplication for test class com.univade.TU.repository.CategoryRepositoryTest$CrudTests
+10:56:32.287 [main] INFO org.springframework.boot.devtools.restart.RestartApplicationListener -- Restart disabled due to context in which it is running
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.5.3)
+
+2025-08-01T10:56:32.956+01:00  INFO 21956 --- [TU] [           main] c.u.T.repository.CategoryRepositoryTest  : Starting CategoryRepositoryTest using Java 23 with PID 21956 (started by viet in C:\Users\viet\Desktop\TU\TU)
+2025-08-01T10:56:32.958+01:00  INFO 21956 --- [TU] [           main] c.u.T.repository.CategoryRepositoryTest  : No active profile set, falling back to 1 default profile: "default"
+2025-08-01T10:56:33.937+01:00  INFO 21956 --- [TU] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-08-01T10:56:34.090+01:00  INFO 21956 --- [TU] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 133 ms. Found 5 JPA repository interfaces.
+2025-08-01T10:56:34.185+01:00  INFO 21956 --- [TU] [           main] beddedDataSourceBeanFactoryPostProcessor : Replacing 'dataSource' DataSource bean with embedded version
+2025-08-01T10:56:34.360+01:00  WARN 21956 --- [TU] [           main] trationDelegate$BeanPostProcessorChecker : Bean 'tuApplication' of type [com.univade.TU.TuApplication$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). The currently created BeanPostProcessor [methodValidationPostProcessor] is declared through a non-static factory method on that class; consider declaring it as static instead.
+2025-08-01T10:56:34.492+01:00  INFO 21956 --- [TU] [           main] o.s.j.d.e.EmbeddedDatabaseFactory        : Starting embedded database: url='jdbc:h2:mem:d454da25-e94a-46ac-82a0-52b9fcafd185;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false', username='sa'
+2025-08-01T10:56:34.978+01:00  INFO 21956 --- [TU] [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-08-01T10:56:35.078+01:00  INFO 21956 --- [TU] [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.18.Final
+2025-08-01T10:56:35.133+01:00  INFO 21956 --- [TU] [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-08-01T10:56:35.918+01:00  INFO 21956 --- [TU] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-08-01T10:56:36.035+01:00  WARN 21956 --- [TU] [           main] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-08-01T10:56:36.074+01:00  INFO 21956 --- [TU] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseFactory$EmbeddedDataSourceProxy@50ff7063']
+	Database driver: undefined/unknown
+	Database version: 2.3.232
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-08-01T10:56:37.875+01:00  INFO 21956 --- [TU] [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-08-01T10:56:37.893+01:00 DEBUG 21956 --- [TU] [           main] org.hibernate.SQL                        : 
+    drop table if exists addresses cascade 
+Hibernate: 
+    drop table if exists addresses cascade 
+2025-08-01T10:56:37.897+01:00 DEBUG 21956 --- [TU] [           main] org.hibernate.SQL                        : 
+    drop table if exists categories cascade 
+Hibernate: 
+    drop table if exists categories cascade 
+2025-08-01T10:56:37.897+01:00 DEBUG 21956 --- [TU] [           main] org.hibernate.SQL                        : 
+    drop table if exists persons cascade 
+Hibernate: 
+    drop table if exists persons cascade 
+2025-08-01T10:56:37.898+01:00 DEBUG 21956 --- [TU] [           main] org.hibernate.SQL                        : 
+    drop table if exists posts cascade 
+Hibernate: 
+    drop table if exists posts cascade 
+2025-08-01T10:56:37.898+01:00 DEBUG 21956 --- [TU] [           main] org.hibernate.SQL                        : 
+    drop table if exists users cascade 
+Hibernate: 
+    drop table if exists users cascade 
+2025-08-01T10:56:37.904+01:00 DEBUG 21956 --- [TU] [           main] org.hibernate.SQL                        : 
+    create table addresses (
+        id bigint generated by default as identity,
+        zip_code varchar(10) not null,
+        city varchar(100) not null,
+        street varchar(150) not null,
+        primary key (id)
+    )
+Hibernate: 
+    create table addresses (
+        id bigint generated by default as identity,
+        zip_code varchar(10) not null,
+        city varchar(100) not null,
+        street varchar(150) not null,
+        primary key (id)
+    )
+2025-08-01T10:56:37.915+01:00 DEBUG 21956 --- [TU] [           main] org.hibernate.SQL                        : 
+    create table categories (
+        active boolean,
+        id bigint generated by default as identity,
+        name varchar(100),
+        description varchar(500),
+        primary key (id)
+    )
+Hibernate: 
+    create table categories (
+        active boolean,
+        id bigint generated by default as identity,
+        name varchar(100),
+        description varchar(500),
+        primary key (id)
+    )
+2025-08-01T10:56:37.917+01:00 DEBUG 21956 --- [TU] [           main] org.hibernate.SQL                        : 
+    create table persons (
+        date_of_birth date not null,
+        cin varchar(12) not null,
+        phone_number varchar(15) unique,
+        first_name varchar(50) not null,
+        last_name varchar(50) not null,
+        email varchar(100) unique,
+        primary key (cin)
+    )
+Hibernate: 
+    create table persons (
+        date_of_birth date not null,
+        cin varchar(12) not null,
+        phone_number varchar(15) unique,
+        first_name varchar(50) not null,
+        last_name varchar(50) not null,
+        email varchar(100) unique,
+        primary key (cin)
+    )
+2025-08-01T10:56:37.921+01:00 DEBUG 21956 --- [TU] [           main] org.hibernate.SQL                        : 
+    create table posts (
+        author_id bigint not null,
+        id bigint generated by default as identity,
+        title varchar(255) not null,
+        content clob not null,
+        primary key (id)
+    )
+Hibernate: 
+    create table posts (
+        author_id bigint not null,
+        id bigint generated by default as identity,
+        title varchar(255) not null,
+        content clob not null,
+        primary key (id)
+    )
+2025-08-01T10:56:37.922+01:00 DEBUG 21956 --- [TU] [           main] org.hibernate.SQL                        : 
+    create table users (
+        age integer check ((age>=0) and (age<=150)),
+        address_id bigint unique,
+        id bigint generated by default as identity,
+        name varchar(100) not null,
+        email varchar(150) not null unique,
+        primary key (id)
+    )
+Hibernate: 
+    create table users (
+        age integer check ((age>=0) and (age<=150)),
+        address_id bigint unique,
+        id bigint generated by default as identity,
+        name varchar(100) not null,
+        email varchar(150) not null unique,
+        primary key (id)
+    )
+2025-08-01T10:56:37.928+01:00 DEBUG 21956 --- [TU] [           main] org.hibernate.SQL                        : 
+    alter table if exists posts 
+       add constraint FK6xvn0811tkyo3nfjk2xvqx6ns 
+       foreign key (author_id) 
+       references users
+Hibernate: 
+    alter table if exists posts 
+       add constraint FK6xvn0811tkyo3nfjk2xvqx6ns 
+       foreign key (author_id) 
+       references users
+2025-08-01T10:56:37.940+01:00 DEBUG 21956 --- [TU] [           main] org.hibernate.SQL                        : 
+    alter table if exists users 
+       add constraint FKe8vydtk7hf0y16bfm558sywbb 
+       foreign key (address_id) 
+       references addresses
+Hibernate: 
+    alter table if exists users 
+       add constraint FKe8vydtk7hf0y16bfm558sywbb 
+       foreign key (address_id) 
+       references addresses
+2025-08-01T10:56:37.947+01:00  INFO 21956 --- [TU] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-08-01T10:56:38.606+01:00  INFO 21956 --- [TU] [           main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-08-01T10:56:40.652+01:00  INFO 21956 --- [TU] [           main] c.u.T.repository.CategoryRepositoryTest  : Started CategoryRepositoryTest in 8.379 seconds (process running for 10.074)
+2025-08-01T10:56:41.374+01:00 DEBUG 21956 --- [TU] [           main] org.hibernate.SQL                        : 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.description,
+        c1_0.name 
+    from
+        categories c1_0
+Hibernate: 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.description,
+        c1_0.name 
+    from
+        categories c1_0
+2025-08-01T10:56:41.462+01:00 DEBUG 21956 --- [TU] [           main] org.hibernate.SQL                        : 
+    insert 
+    into
+        categories
+        (active, description, name, id) 
+    values
+        (?, ?, ?, default)
+Hibernate: 
+    insert 
+    into
+        categories
+        (active, description, name, id) 
+    values
+        (?, ?, ?, default)
+2025-08-01T10:56:41.493+01:00 DEBUG 21956 --- [TU] [           main] org.hibernate.SQL                        : 
+    insert 
+    into
+        categories
+        (active, description, name, id) 
+    values
+        (?, ?, ?, default)
+Hibernate: 
+    insert 
+    into
+        categories
+        (active, description, name, id) 
+    values
+        (?, ?, ?, default)
+2025-08-01T10:56:41.495+01:00 DEBUG 21956 --- [TU] [           main] org.hibernate.SQL                        : 
+    insert 
+    into
+        categories
+        (active, description, name, id) 
+    values
+        (?, ?, ?, default)
+Hibernate: 
+    insert 
+    into
+        categories
+        (active, description, name, id) 
+    values
+        (?, ?, ?, default)
+2025-08-01T10:56:41.512+01:00 DEBUG 21956 --- [TU] [           main] org.hibernate.SQL                        : 
+    delete 
+    from
+        categories 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        categories 
+    where
+        id=?
+2025-08-01T10:56:41.513+01:00 DEBUG 21956 --- [TU] [           main] org.hibernate.SQL                        : 
+    delete 
+    from
+        categories 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        categories 
+    where
+        id=?
+2025-08-01T10:56:41.515+01:00 DEBUG 21956 --- [TU] [           main] org.hibernate.SQL                        : 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.description,
+        c1_0.name 
+    from
+        categories c1_0
+Hibernate: 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.description,
+        c1_0.name 
+    from
+        categories c1_0
+]]></system-out>
+    <system-err><![CDATA[Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
+WARNING: A Java agent has been loaded dynamically (C:\Users\viet\.m2\repository\net\bytebuddy\byte-buddy-agent\1.17.6\byte-buddy-agent-1.17.6.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+]]></system-err>
+  </testcase>
+  <testcase name="deleteCategoryEntityShouldRemoveFromDatabase" classname="com.univade.TU.repository.CategoryRepositoryTest$CrudTests" time="0.015">
+    <system-out><![CDATA[2025-08-01T10:56:41.609+01:00 DEBUG 21956 --- [TU] [           main] org.hibernate.SQL                        : 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.description,
+        c1_0.name 
+    from
+        categories c1_0
+Hibernate: 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.description,
+        c1_0.name 
+    from
+        categories c1_0
+2025-08-01T10:56:41.610+01:00 DEBUG 21956 --- [TU] [           main] org.hibernate.SQL                        : 
+    insert 
+    into
+        categories
+        (active, description, name, id) 
+    values
+        (?, ?, ?, default)
+Hibernate: 
+    insert 
+    into
+        categories
+        (active, description, name, id) 
+    values
+        (?, ?, ?, default)
+]]></system-out>
+  </testcase>
+  <testcase name="createMultipleCategorysShouldPersistAll" classname="com.univade.TU.repository.CategoryRepositoryTest$CrudTests" time="0.04">
+    <system-out><![CDATA[2025-08-01T10:56:41.628+01:00 DEBUG 21956 --- [TU] [           main] org.hibernate.SQL                        : 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.description,
+        c1_0.name 
+    from
+        categories c1_0
+Hibernate: 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.description,
+        c1_0.name 
+    from
+        categories c1_0
+2025-08-01T10:56:41.632+01:00 DEBUG 21956 --- [TU] [           main] org.hibernate.SQL                        : 
+    insert 
+    into
+        categories
+        (active, description, name, id) 
+    values
+        (?, ?, ?, default)
+Hibernate: 
+    insert 
+    into
+        categories
+        (active, description, name, id) 
+    values
+        (?, ?, ?, default)
+2025-08-01T10:56:41.634+01:00 DEBUG 21956 --- [TU] [           main] org.hibernate.SQL                        : 
+    insert 
+    into
+        categories
+        (active, description, name, id) 
+    values
+        (?, ?, ?, default)
+Hibernate: 
+    insert 
+    into
+        categories
+        (active, description, name, id) 
+    values
+        (?, ?, ?, default)
+2025-08-01T10:56:41.636+01:00 DEBUG 21956 --- [TU] [           main] org.hibernate.SQL                        : 
+    insert 
+    into
+        categories
+        (active, description, name, id) 
+    values
+        (?, ?, ?, default)
+Hibernate: 
+    insert 
+    into
+        categories
+        (active, description, name, id) 
+    values
+        (?, ?, ?, default)
+2025-08-01T10:56:41.655+01:00 DEBUG 21956 --- [TU] [           main] org.hibernate.SQL                        : 
+    select
+        count(*) 
+    from
+        categories c1_0
+Hibernate: 
+    select
+        count(*) 
+    from
+        categories c1_0
+]]></system-out>
+  </testcase>
+  <testcase name="createCategoryShouldPersistNewEntity" classname="com.univade.TU.repository.CategoryRepositoryTest$CrudTests" time="0.038">
+    <system-out><![CDATA[2025-08-01T10:56:41.676+01:00 DEBUG 21956 --- [TU] [           main] org.hibernate.SQL                        : 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.description,
+        c1_0.name 
+    from
+        categories c1_0
+Hibernate: 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.description,
+        c1_0.name 
+    from
+        categories c1_0
+2025-08-01T10:56:41.685+01:00 DEBUG 21956 --- [TU] [           main] org.hibernate.SQL                        : 
+    insert 
+    into
+        categories
+        (active, description, name, id) 
+    values
+        (?, ?, ?, default)
+Hibernate: 
+    insert 
+    into
+        categories
+        (active, description, name, id) 
+    values
+        (?, ?, ?, default)
+]]></system-out>
+  </testcase>
+  <testcase name="readCategoryByIdShouldReturnCorrectEntity" classname="com.univade.TU.repository.CategoryRepositoryTest$CrudTests" time="0.028">
+    <system-out><![CDATA[2025-08-01T10:56:41.720+01:00 DEBUG 21956 --- [TU] [           main] org.hibernate.SQL                        : 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.description,
+        c1_0.name 
+    from
+        categories c1_0
+Hibernate: 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.description,
+        c1_0.name 
+    from
+        categories c1_0
+2025-08-01T10:56:41.726+01:00 DEBUG 21956 --- [TU] [           main] org.hibernate.SQL                        : 
+    insert 
+    into
+        categories
+        (active, description, name, id) 
+    values
+        (?, ?, ?, default)
+Hibernate: 
+    insert 
+    into
+        categories
+        (active, description, name, id) 
+    values
+        (?, ?, ?, default)
+]]></system-out>
+  </testcase>
+  <testcase name="countCategorysWhenEmptyShouldReturnZero" classname="com.univade.TU.repository.CategoryRepositoryTest$CrudTests" time="0.042">
+    <system-out><![CDATA[2025-08-01T10:56:41.754+01:00 DEBUG 21956 --- [TU] [           main] org.hibernate.SQL                        : 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.description,
+        c1_0.name 
+    from
+        categories c1_0
+Hibernate: 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.description,
+        c1_0.name 
+    from
+        categories c1_0
+2025-08-01T10:56:41.764+01:00 DEBUG 21956 --- [TU] [           main] org.hibernate.SQL                        : 
+    select
+        count(*) 
+    from
+        categories c1_0
+Hibernate: 
+    select
+        count(*) 
+    from
+        categories c1_0
+]]></system-out>
+  </testcase>
+  <testcase name="existsCategoryByIdShouldReturnTrueForExistingEntity" classname="com.univade.TU.repository.CategoryRepositoryTest$CrudTests" time="0.06">
+    <system-out><![CDATA[2025-08-01T10:56:41.807+01:00 DEBUG 21956 --- [TU] [           main] org.hibernate.SQL                        : 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.description,
+        c1_0.name 
+    from
+        categories c1_0
+Hibernate: 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.description,
+        c1_0.name 
+    from
+        categories c1_0
+2025-08-01T10:56:41.810+01:00 DEBUG 21956 --- [TU] [           main] org.hibernate.SQL                        : 
+    insert 
+    into
+        categories
+        (active, description, name, id) 
+    values
+        (?, ?, ?, default)
+Hibernate: 
+    insert 
+    into
+        categories
+        (active, description, name, id) 
+    values
+        (?, ?, ?, default)
+2025-08-01T10:56:41.834+01:00 DEBUG 21956 --- [TU] [           main] org.hibernate.SQL                        : 
+    select
+        count(*) 
+    from
+        categories c1_0 
+    where
+        c1_0.id=?
+Hibernate: 
+    select
+        count(*) 
+    from
+        categories c1_0 
+    where
+        c1_0.id=?
+]]></system-out>
+  </testcase>
+  <testcase name="updateAllCategoryAttributesShouldPersistChanges" classname="com.univade.TU.repository.CategoryRepositoryTest$CrudTests" time="0.041">
+    <system-out><![CDATA[2025-08-01T10:56:41.860+01:00 DEBUG 21956 --- [TU] [           main] org.hibernate.SQL                        : 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.description,
+        c1_0.name 
+    from
+        categories c1_0
+Hibernate: 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.description,
+        c1_0.name 
+    from
+        categories c1_0
+2025-08-01T10:56:41.866+01:00 DEBUG 21956 --- [TU] [           main] org.hibernate.SQL                        : 
+    insert 
+    into
+        categories
+        (active, description, name, id) 
+    values
+        (?, ?, ?, default)
+Hibernate: 
+    insert 
+    into
+        categories
+        (active, description, name, id) 
+    values
+        (?, ?, ?, default)
+2025-08-01T10:56:41.882+01:00 DEBUG 21956 --- [TU] [           main] org.hibernate.SQL                        : 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.description,
+        c1_0.name 
+    from
+        categories c1_0 
+    where
+        c1_0.id=?
+Hibernate: 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.description,
+        c1_0.name 
+    from
+        categories c1_0 
+    where
+        c1_0.id=?
+]]></system-out>
+  </testcase>
+  <testcase name="deleteCategoryByIdShouldRemoveEntity" classname="com.univade.TU.repository.CategoryRepositoryTest$CrudTests" time="0.03">
+    <system-out><![CDATA[2025-08-01T10:56:41.904+01:00 DEBUG 21956 --- [TU] [           main] org.hibernate.SQL                        : 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.description,
+        c1_0.name 
+    from
+        categories c1_0
+Hibernate: 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.description,
+        c1_0.name 
+    from
+        categories c1_0
+2025-08-01T10:56:41.913+01:00 DEBUG 21956 --- [TU] [           main] org.hibernate.SQL                        : 
+    insert 
+    into
+        categories
+        (active, description, name, id) 
+    values
+        (?, ?, ?, default)
+Hibernate: 
+    insert 
+    into
+        categories
+        (active, description, name, id) 
+    values
+        (?, ?, ?, default)
+]]></system-out>
+  </testcase>
+  <testcase name="existsCategoryByIdShouldReturnFalseForNonExistingEntity" classname="com.univade.TU.repository.CategoryRepositoryTest$CrudTests" time="0.045">
+    <system-out><![CDATA[2025-08-01T10:56:41.947+01:00 DEBUG 21956 --- [TU] [           main] org.hibernate.SQL                        : 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.description,
+        c1_0.name 
+    from
+        categories c1_0
+Hibernate: 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.description,
+        c1_0.name 
+    from
+        categories c1_0
+2025-08-01T10:56:41.958+01:00 DEBUG 21956 --- [TU] [           main] org.hibernate.SQL                        : 
+    select
+        count(*) 
+    from
+        categories c1_0 
+    where
+        c1_0.id=?
+Hibernate: 
+    select
+        count(*) 
+    from
+        categories c1_0 
+    where
+        c1_0.id=?
+]]></system-out>
+  </testcase>
+  <testcase name="readAllCategorysShouldReturnAllEntities" classname="com.univade.TU.repository.CategoryRepositoryTest$CrudTests" time="0.066">
+    <system-out><![CDATA[2025-08-01T10:56:42.007+01:00 DEBUG 21956 --- [TU] [           main] org.hibernate.SQL                        : 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.description,
+        c1_0.name 
+    from
+        categories c1_0
+Hibernate: 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.description,
+        c1_0.name 
+    from
+        categories c1_0
+2025-08-01T10:56:42.014+01:00 DEBUG 21956 --- [TU] [           main] org.hibernate.SQL                        : 
+    insert 
+    into
+        categories
+        (active, description, name, id) 
+    values
+        (?, ?, ?, default)
+Hibernate: 
+    insert 
+    into
+        categories
+        (active, description, name, id) 
+    values
+        (?, ?, ?, default)
+2025-08-01T10:56:42.022+01:00 DEBUG 21956 --- [TU] [           main] org.hibernate.SQL                        : 
+    insert 
+    into
+        categories
+        (active, description, name, id) 
+    values
+        (?, ?, ?, default)
+Hibernate: 
+    insert 
+    into
+        categories
+        (active, description, name, id) 
+    values
+        (?, ?, ?, default)
+2025-08-01T10:56:42.029+01:00 DEBUG 21956 --- [TU] [           main] org.hibernate.SQL                        : 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.description,
+        c1_0.name 
+    from
+        categories c1_0
+Hibernate: 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.description,
+        c1_0.name 
+    from
+        categories c1_0
+]]></system-out>
+  </testcase>
+  <testcase name="readAllCategorysWhenEmptyShouldReturnEmptyList" classname="com.univade.TU.repository.CategoryRepositoryTest$CrudTests" time="0.022">
+    <system-out><![CDATA[2025-08-01T10:56:42.072+01:00 DEBUG 21956 --- [TU] [           main] org.hibernate.SQL                        : 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.description,
+        c1_0.name 
+    from
+        categories c1_0
+Hibernate: 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.description,
+        c1_0.name 
+    from
+        categories c1_0
+2025-08-01T10:56:42.077+01:00 DEBUG 21956 --- [TU] [           main] org.hibernate.SQL                        : 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.description,
+        c1_0.name 
+    from
+        categories c1_0
+Hibernate: 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.description,
+        c1_0.name 
+    from
+        categories c1_0
+]]></system-out>
+  </testcase>
+  <testcase name="deleteCategoryByNonExistentIdShouldNotThrowException" classname="com.univade.TU.repository.CategoryRepositoryTest$CrudTests" time="0.028">
+    <system-out><![CDATA[2025-08-01T10:56:42.099+01:00 DEBUG 21956 --- [TU] [           main] org.hibernate.SQL                        : 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.description,
+        c1_0.name 
+    from
+        categories c1_0
+Hibernate: 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.description,
+        c1_0.name 
+    from
+        categories c1_0
+2025-08-01T10:56:42.106+01:00 DEBUG 21956 --- [TU] [           main] org.hibernate.SQL                        : 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.description,
+        c1_0.name 
+    from
+        categories c1_0 
+    where
+        c1_0.id=?
+Hibernate: 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.description,
+        c1_0.name 
+    from
+        categories c1_0 
+    where
+        c1_0.id=?
+]]></system-out>
+  </testcase>
+  <testcase name="deleteAllCategorysShouldRemoveAllEntities" classname="com.univade.TU.repository.CategoryRepositoryTest$CrudTests" time="0.082">
+    <system-out><![CDATA[2025-08-01T10:56:42.141+01:00 DEBUG 21956 --- [TU] [           main] org.hibernate.SQL                        : 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.description,
+        c1_0.name 
+    from
+        categories c1_0
+Hibernate: 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.description,
+        c1_0.name 
+    from
+        categories c1_0
+2025-08-01T10:56:42.147+01:00 DEBUG 21956 --- [TU] [           main] org.hibernate.SQL                        : 
+    insert 
+    into
+        categories
+        (active, description, name, id) 
+    values
+        (?, ?, ?, default)
+Hibernate: 
+    insert 
+    into
+        categories
+        (active, description, name, id) 
+    values
+        (?, ?, ?, default)
+2025-08-01T10:56:42.157+01:00 DEBUG 21956 --- [TU] [           main] org.hibernate.SQL                        : 
+    insert 
+    into
+        categories
+        (active, description, name, id) 
+    values
+        (?, ?, ?, default)
+Hibernate: 
+    insert 
+    into
+        categories
+        (active, description, name, id) 
+    values
+        (?, ?, ?, default)
+2025-08-01T10:56:42.161+01:00 DEBUG 21956 --- [TU] [           main] org.hibernate.SQL                        : 
+    insert 
+    into
+        categories
+        (active, description, name, id) 
+    values
+        (?, ?, ?, default)
+Hibernate: 
+    insert 
+    into
+        categories
+        (active, description, name, id) 
+    values
+        (?, ?, ?, default)
+2025-08-01T10:56:42.171+01:00 DEBUG 21956 --- [TU] [           main] org.hibernate.SQL                        : 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.description,
+        c1_0.name 
+    from
+        categories c1_0
+Hibernate: 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.description,
+        c1_0.name 
+    from
+        categories c1_0
+2025-08-01T10:56:42.178+01:00 DEBUG 21956 --- [TU] [           main] org.hibernate.SQL                        : 
+    delete 
+    from
+        categories 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        categories 
+    where
+        id=?
+2025-08-01T10:56:42.180+01:00 DEBUG 21956 --- [TU] [           main] org.hibernate.SQL                        : 
+    delete 
+    from
+        categories 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        categories 
+    where
+        id=?
+2025-08-01T10:56:42.182+01:00 DEBUG 21956 --- [TU] [           main] org.hibernate.SQL                        : 
+    delete 
+    from
+        categories 
+    where
+        id=?
+Hibernate: 
+    delete 
+    from
+        categories 
+    where
+        id=?
+2025-08-01T10:56:42.184+01:00 DEBUG 21956 --- [TU] [           main] org.hibernate.SQL                        : 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.description,
+        c1_0.name 
+    from
+        categories c1_0
+Hibernate: 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.description,
+        c1_0.name 
+    from
+        categories c1_0
+2025-08-01T10:56:42.187+01:00 DEBUG 21956 --- [TU] [           main] org.hibernate.SQL                        : 
+    select
+        count(*) 
+    from
+        categories c1_0
+Hibernate: 
+    select
+        count(*) 
+    from
+        categories c1_0
+]]></system-out>
+  </testcase>
+  <testcase name="countCategorysShouldReturnCorrectNumber" classname="com.univade.TU.repository.CategoryRepositoryTest$CrudTests" time="0.05">
+    <system-out><![CDATA[2025-08-01T10:56:42.242+01:00 DEBUG 21956 --- [TU] [           main] org.hibernate.SQL                        : 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.description,
+        c1_0.name 
+    from
+        categories c1_0
+Hibernate: 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.description,
+        c1_0.name 
+    from
+        categories c1_0
+2025-08-01T10:56:42.251+01:00 DEBUG 21956 --- [TU] [           main] org.hibernate.SQL                        : 
+    insert 
+    into
+        categories
+        (active, description, name, id) 
+    values
+        (?, ?, ?, default)
+Hibernate: 
+    insert 
+    into
+        categories
+        (active, description, name, id) 
+    values
+        (?, ?, ?, default)
+2025-08-01T10:56:42.253+01:00 DEBUG 21956 --- [TU] [           main] org.hibernate.SQL                        : 
+    insert 
+    into
+        categories
+        (active, description, name, id) 
+    values
+        (?, ?, ?, default)
+Hibernate: 
+    insert 
+    into
+        categories
+        (active, description, name, id) 
+    values
+        (?, ?, ?, default)
+2025-08-01T10:56:42.254+01:00 DEBUG 21956 --- [TU] [           main] org.hibernate.SQL                        : 
+    select
+        count(*) 
+    from
+        categories c1_0
+Hibernate: 
+    select
+        count(*) 
+    from
+        categories c1_0
+]]></system-out>
+  </testcase>
+  <testcase name="createCategoryWithNullShouldThrowException" classname="com.univade.TU.repository.CategoryRepositoryTest$CrudTests" time="0.027">
+    <system-out><![CDATA[2025-08-01T10:56:42.275+01:00 DEBUG 21956 --- [TU] [           main] org.hibernate.SQL                        : 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.description,
+        c1_0.name 
+    from
+        categories c1_0
+Hibernate: 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.description,
+        c1_0.name 
+    from
+        categories c1_0
+]]></system-out>
+  </testcase>
+  <testcase name="readCategoryByNonExistentIdShouldReturnEmpty" classname="com.univade.TU.repository.CategoryRepositoryTest$CrudTests" time="0.016">
+    <system-out><![CDATA[2025-08-01T10:56:42.301+01:00 DEBUG 21956 --- [TU] [           main] org.hibernate.SQL                        : 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.description,
+        c1_0.name 
+    from
+        categories c1_0
+Hibernate: 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.description,
+        c1_0.name 
+    from
+        categories c1_0
+2025-08-01T10:56:42.304+01:00 DEBUG 21956 --- [TU] [           main] org.hibernate.SQL                        : 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.description,
+        c1_0.name 
+    from
+        categories c1_0 
+    where
+        c1_0.id=?
+Hibernate: 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.description,
+        c1_0.name 
+    from
+        categories c1_0 
+    where
+        c1_0.id=?
+]]></system-out>
+  </testcase>
+  <testcase name="saveNewCategoryShouldCreateEntity" classname="com.univade.TU.repository.CategoryRepositoryTest$CrudTests" time="0.047">
+    <system-out><![CDATA[2025-08-01T10:56:42.324+01:00 DEBUG 21956 --- [TU] [           main] org.hibernate.SQL                        : 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.description,
+        c1_0.name 
+    from
+        categories c1_0
+Hibernate: 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.description,
+        c1_0.name 
+    from
+        categories c1_0
+2025-08-01T10:56:42.334+01:00 DEBUG 21956 --- [TU] [           main] org.hibernate.SQL                        : 
+    select
+        count(*) 
+    from
+        categories c1_0
+Hibernate: 
+    select
+        count(*) 
+    from
+        categories c1_0
+2025-08-01T10:56:42.339+01:00 DEBUG 21956 --- [TU] [           main] org.hibernate.SQL                        : 
+    insert 
+    into
+        categories
+        (active, description, name, id) 
+    values
+        (?, ?, ?, default)
+Hibernate: 
+    insert 
+    into
+        categories
+        (active, description, name, id) 
+    values
+        (?, ?, ?, default)
+2025-08-01T10:56:42.343+01:00 DEBUG 21956 --- [TU] [           main] org.hibernate.SQL                        : 
+    select
+        count(*) 
+    from
+        categories c1_0
+Hibernate: 
+    select
+        count(*) 
+    from
+        categories c1_0
+]]></system-out>
+  </testcase>
+  <testcase name="updateCategoryShouldModifyExistingEntity" classname="com.univade.TU.repository.CategoryRepositoryTest$CrudTests" time="0.032">
+    <system-out><![CDATA[2025-08-01T10:56:42.376+01:00 DEBUG 21956 --- [TU] [           main] org.hibernate.SQL                        : 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.description,
+        c1_0.name 
+    from
+        categories c1_0
+Hibernate: 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.description,
+        c1_0.name 
+    from
+        categories c1_0
+2025-08-01T10:56:42.382+01:00 DEBUG 21956 --- [TU] [           main] org.hibernate.SQL                        : 
+    insert 
+    into
+        categories
+        (active, description, name, id) 
+    values
+        (?, ?, ?, default)
+Hibernate: 
+    insert 
+    into
+        categories
+        (active, description, name, id) 
+    values
+        (?, ?, ?, default)
+2025-08-01T10:56:42.386+01:00 DEBUG 21956 --- [TU] [           main] org.hibernate.SQL                        : 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.description,
+        c1_0.name 
+    from
+        categories c1_0 
+    where
+        c1_0.id=?
+Hibernate: 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.description,
+        c1_0.name 
+    from
+        categories c1_0 
+    where
+        c1_0.id=?
+]]></system-out>
+  </testcase>
+</testsuite>

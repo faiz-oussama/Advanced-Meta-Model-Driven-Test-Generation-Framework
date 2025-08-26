@@ -1,0 +1,121 @@
+{
+  "name": "Person",
+  "packageName": "com.univade.TU",
+  "tableName": "persons",
+  "auditable": false,
+  "attributes": [
+    {
+      "name": "cin",
+      "type": "String",
+      "nullable": false,
+      "unique": true,
+      "primaryKey": true,
+      "generatedValue": false,
+      "columnName": "cin",
+      "maxLength": 12,
+      "minLength": 8,
+      "notBlank": true
+    },
+    {
+      "name": "firstName",
+      "type": "String",
+      "nullable": false,
+      "unique": false,
+      "maxLength": 50,
+      "minLength": 2,
+      "columnName": "first_name",
+      "notBlank": true
+    },
+    {
+      "name": "lastName",
+      "type": "String",
+      "nullable": false,
+      "unique": false,
+      "maxLength": 50,
+      "minLength": 2,
+      "columnName": "last_name",
+      "notBlank": true
+    },
+    {
+      "name": "dateOfBirth",
+      "type": "LocalDate",
+      "nullable": true,
+      "unique": false,
+      "columnName": "date_of_birth"
+    },
+    {
+      "name": "phoneNumber",
+      "type": "String",
+      "nullable": true,
+      "unique": true,
+      "maxLength": 15,
+      "minLength": 10,
+      "columnName": "phone_number"
+    },
+    {
+      "name": "email",
+      "type": "String",
+      "nullable": true,
+      "unique": true,
+      "maxLength": 100,
+      "columnName": "email",
+      "email": true
+    }
+  ],
+  "relationships": [],
+  "validations": [
+    {
+      "attributeName": "cin",
+      "validationType": "NotBlank",
+      "message": "CIN cannot be blank"
+    },
+    {
+      "attributeName": "cin",
+      "validationType": "Size",
+      "min": 8,
+      "max": 12,
+      "message": "CIN must be between 8 and 12 characters"
+    },
+    {
+      "attributeName": "firstName",
+      "validationType": "NotBlank",
+      "message": "First name cannot be blank"
+    },
+    {
+      "attributeName": "firstName",
+      "validationType": "Size",
+      "min": 2,
+      "max": 50,
+      "message": "First name must be between 2 and 50 characters"
+    },
+    {
+      "attributeName": "lastName",
+      "validationType": "NotBlank",
+      "message": "Last name cannot be blank"
+    },
+    {
+      "attributeName": "lastName",
+      "validationType": "Size",
+      "min": 2,
+      "max": 50,
+      "message": "Last name must be between 2 and 50 characters"
+    },
+    {
+      "attributeName": "dateOfBirth",
+      "validationType": "NotNull",
+      "message": "Date of birth cannot be null"
+    },
+    {
+      "attributeName": "phoneNumber",
+      "validationType": "Size",
+      "min": 10,
+      "max": 15,
+      "message": "Phone number must be between 10 and 15 characters"
+    },
+    {
+      "attributeName": "email",
+      "validationType": "Email",
+      "message": "Email must be valid"
+    }
+  ]
+}
